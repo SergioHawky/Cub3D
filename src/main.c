@@ -12,14 +12,7 @@
 
 #include "cub3D.h"
 
-int close_window(t_data *data)
-{
-    mlx_destroy_window(data->mlx, data->win);
-    if (data->map)
-        clean_map(data->map);
-    free(data);
-    exit(0);
-}
+
 
 int main(int argc, char **argv)
 {
@@ -39,10 +32,12 @@ int main(int argc, char **argv)
     if (!data->mlx)
         return(print_message_and_free("MLX init failed\n", data, 2), 1);
 
-    data->win = mlx_new_window(data->mlx, 1024, 512, "cub3D");                 // definit tamanho da janela 1900x600
+    // WIDTH e HEIGHT são macros definidos no cub3D.h header
+    data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "cub3D"); // definit tamanho da janela 1900x600
     if (!data->win)
         return(print_message_and_free("Window creation failed\n", data, 2), 1);
-    mlx_hook(data->win, 17, 0, close_window, data);
+
+    events_init(data);
     mlx_loop(data->mlx);
     return 0;
 }

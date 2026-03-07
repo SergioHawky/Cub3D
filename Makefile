@@ -9,7 +9,9 @@ SRCS = src/main.c \
 	   src/parsing.c \
 	   src/map_checker_1.c \
 	   src/map_checker_2.c \
-	   src/utils.c
+	   src/utils.c \
+	   src/events.c
+	
 
 OBJS = $(SRCS:.c=.o)
 
@@ -34,5 +36,8 @@ re: fclean all
 mlx:
 	git clone https://github.com/42Paris/minilibx-linux.git $(MLX)
 	$(MAKE) -C $(MLX)
+
+ffclean: clean fclean
+	rm -rf $(MLX)
 
 .PHONY: all clean fclean re

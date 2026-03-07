@@ -6,9 +6,14 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <math.h>
-#include <mlx.h>
+# include <unistd.h>
+# include <mlx.h>
+# include <X11/X.h>
+# include <X11/keysym.h>
 
 # define PX 32
+# define WIDTH 1024
+# define HEIGHT 512 
 
 typedef struct map
 {
@@ -30,7 +35,7 @@ void    print_message_and_free(char *message, t_data *data, int fd);
 int     check_if_map_is_valid(t_map *map, char *filename);
 t_map   *parse_map(char *filename);
 void    clean_map(t_map *map);
-t_map   *copy_map(t_map *original);
-int     check_borders(t_map *map);
+t_map   *copy_map(t_map *original); int     check_borders(t_map *map);
+void	events_init(t_data *data);
 
 #endif
