@@ -3,21 +3,25 @@
 
 
 // made by Sergio
-int close_window(t_data *data)
-{
-    mlx_destroy_window(data->mlx, data->win);
-    if (data->map)
-        clean_map(data->map);
-    free(data);
-    exit(EXIT_SUCCESS);
-}
+// int close_window(t_data *data)
+// {
+//     mlx_destroy_window(data->mlx, data->win);
+//     if (data->map)
+//         clean_map(data->map);
+//     free(data);
+//     exit(EXIT_SUCCESS);
+// }
 
 // made by CG
 int	close_handler(t_data *data)
 {
-    // fix this mlx_destroy_image(). what could be the "fractal->img.img_ptr"?
+    // does cub3d need "mlx_destroy_image()" function?.
+    // if so... what could be the "fractal->img.img_ptr"?
     // mlx_destroy_image(data->mlx, fractal->img.img_ptr);
+
     mlx_destroy_window(data->mlx, data->win);
+    if (data->map)
+        clean_map(data->map);
     mlx_destroy_display(data->mlx);
     free(data->mlx);
     exit(EXIT_SUCCESS);

@@ -40,4 +40,7 @@ mlx:
 ffclean: clean fclean
 	rm -rf $(MLX)
 
+vc:
+	valgrind --leak-check=full --show-leak-kinds=all ./cub3D maps/map1.cub
+
 .PHONY: all clean fclean re

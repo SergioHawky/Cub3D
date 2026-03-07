@@ -24,7 +24,7 @@ typedef struct map
     float player_y;
 }               t_map;
 
-typedef struct main_data
+typedef struct s_data
 {
     void    *mlx;
     void    *win;
