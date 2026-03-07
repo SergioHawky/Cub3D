@@ -6,20 +6,26 @@ CFLAGS = -Wall -Wextra -Werror -Iinclude -I$(MLX)
 MLXFLAGS = -L$(MLX) -lmlx -lXext -lX11 -lm -lz
 
 SRCS = src/main.c \
-		src/utils.c
+	   src/parsing.c \
+	   src/map_checker_1.c \
+	   src/map_checker_2.c \
+	   src/utils.c
 
 OBJS = $(SRCS:.c=.o)
 
 all:$(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(MLXFLAGS)
+	$(MAKE) -C libft
+	$(CC) $(CFLAGS) $(OBJS) -Llibft -lft $(MLXFLAGS) -o $(NAME)
 	@echo "Cub3D has been compiled successfully!"
 
 clean:
 	rm -f $(OBJS)
+	$(MAKE) -C libft clean
 
 fclean: clean
+	$(MAKE) -C libft fclean
 	rm -f $(NAME)
 	@echo "Cub3D has been removed successfully!"
 
