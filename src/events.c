@@ -1,18 +1,6 @@
 
 #include "cub3D.h"
 
-
-// made by Sergio
-// int close_window(t_data *data)
-// {
-//     mlx_destroy_window(data->mlx, data->win);
-//     if (data->map)
-//         clean_map(data->map);
-//     free(data);
-//     exit(EXIT_SUCCESS);
-// }
-
-// made by CG
 int	close_handler(t_data *data)
 {
     // does cub3d need "mlx_destroy_image()" function?.
@@ -46,6 +34,7 @@ int	key_press_handler(int keysym, t_data *data)
     //  || keysym == XK_l)
     //  key_mods_handler(keysym, fractal);
 
+    // after player and textures are make, add game_render():
     // game_render(data);
     return (0);
 }

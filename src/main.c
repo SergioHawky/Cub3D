@@ -14,10 +14,6 @@
 
 int 	init_data(char **argv, t_data *data)
 {
-    // data = malloc(sizeof(t_data));
-    // if (!data)
-    //     return (print_message_and_free("Memory allocation failed\n", NULL, 2), 0);
-
     data->map = parse_map(argv[1]);
     if (!data->map)
         return(print_message_and_free("Map parsing failed\n", data, 2), 0);
