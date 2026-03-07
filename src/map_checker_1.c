@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 13:49:31 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/07 15:11:49 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/03/07 18:20:14 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int     check_if_map_is_valid(t_map *map, char *filename)
         return (ft_putstr_fd("Invalid map format!\n", 2), 0);
     if (check_characters(map) == 0)
         return (ft_putstr_fd("Invalid characters or player in map!\n", 2), 0);
+    printf("%d\n", map->height); //debug
+    printf("%d\n", map->width); //debug
     if (check_borders(map) == 0)
         return (ft_putstr_fd("Invalid map borders!\n", 2), 0);
     return (1);
