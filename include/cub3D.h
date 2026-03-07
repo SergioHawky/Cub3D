@@ -15,6 +15,13 @@
 # define WIDTH 1024
 # define HEIGHT 512 
 
+# define ERROR_INVALID \
+    "ERROR: Invalid number of arguments\n\
+    Usage: './cub3d maps/<any_map>.cub'\n"
+# define ERROR_PARSING "Map parsing failed\n"
+# define ERROR_MLX_INIT "MLX init failed\n"
+# define ERROR_MLX_WIN "Window creation failed\n"
+
 typedef struct map
 {
     char **grid;
