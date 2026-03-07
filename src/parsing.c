@@ -80,8 +80,8 @@ t_map   *parse_map(char *filename)
         return (free(map->grid), free(map), NULL);
     map = fill_map(map, filename);
     if (!map)
-		return (ft_putstr_fd("Error reading map\n", 2), NULL);
-	if (check_if_map_is_valid(map, filename) == 0)
-		return (clean_map(map), NULL);
+	return (ft_putstr_fd("Error reading map\n", 2), NULL);
+    if (check_if_map_is_valid(map, filename) == 0)
+	return (clean_map(map), NULL);
     return (map);
 }
