@@ -22,7 +22,22 @@
 # define ERROR_MLX_INIT "MLX init failed\n"
 # define ERROR_MLX_WIN "Window creation failed\n"
 
-typedef struct map
+// COLORS
+# define BLACK 0x000000
+# define WHITE 0xFFFFFF
+# define UBUNTU 0x5E2750
+# define PINK 0xFF69B4
+
+typedef struct 	s_img
+{
+    void    *img_ptr;
+    char    *addr; // addr
+    int	    bpp;
+    int	    endian;
+    int	    line_len;
+}		t_img;
+
+typedef struct 	s_map
 {
     char **grid;
     int width;
@@ -36,6 +51,7 @@ typedef struct s_data
     void    *mlx;
     void    *win;
     t_map   *map;
+    t_img	img;
 }               t_data;
 
 void    print_message_and_free(char *message, t_data *data, int fd);
@@ -44,5 +60,6 @@ t_map   *parse_map(char *filename);
 void    clean_map(t_map *map);
 t_map   *copy_map(t_map *original); int     check_borders(t_map *map);
 void	events_init(t_data *data);
+void 	game_render(t_data *data);
 
 #endif

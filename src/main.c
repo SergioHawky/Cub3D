@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
 int 	init_data(char **argv, t_data *data)
 {
     data->map = parse_map(argv[1]);
@@ -25,6 +24,16 @@ int 	init_data(char **argv, t_data *data)
     data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "cub3D");
     if (!data->win)
         return(print_message_and_free(ERROR_MLX_WIN, data, 2), 0);
+    
+    data->img.img_ptr = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+    if (!data->img.img_ptr)
+        return(print_message_and_free("ERROR on mlx_new_image()", data, 2), 0);
+
+    data->img.addr= mlx_get_data_addr(data->img.img_ptr, &data->img.bpp, &data->img.line_len, &data->img.endian);
+    
+
+    events_init(data);
+
     return (1);
 }
 
@@ -37,7 +46,7 @@ int main(int argc, char **argv)
 
     if (!init_data(argv, &data))
 	return(1);
-    events_init(&data);
+    game_render(&data);
     mlx_loop(data.mlx);
 
     return (0);
