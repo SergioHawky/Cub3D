@@ -34,7 +34,6 @@ void    print_message_and_free(char *message, t_data *data, int fd)
     {
         if (data->map)
             clean_map(data->map);
-        free(data);
     }
 }
 
