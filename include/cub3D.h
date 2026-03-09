@@ -12,8 +12,8 @@
 # include <X11/keysym.h>
 
 # define PX 32
-# define WIDTH 1024
-# define HEIGHT 512 
+# define WIDTH 320
+# define HEIGHT 320 
 
 # define ERROR_INVALID \
     "ERROR: Invalid number of arguments\n\
@@ -27,6 +27,10 @@
 # define WHITE 0xFFFFFF
 # define UBUNTU 0x5E2750
 # define PINK 0xFF69B4
+# define YELLOW 0xFFEA00
+# define RED 0xDC143C
+# define GREY 0xB2BEB5
+# define CHARCOAL 0x36454F
 
 typedef struct 	s_img
 {
@@ -37,6 +41,22 @@ typedef struct 	s_img
     int	    line_len;
 }		t_img;
 
+typedef struct s_player
+{
+    // char dir;
+    float	pos_x;
+    float	pos_y;
+    // int	dir_x;
+    // int	dir_y;
+    // int	plane_x;
+    // int	plane_y;
+    // int	has_moved;
+    // int	move_x;
+    // int	move_y;
+    // int	rotate;
+}	t_player;
+
+
 typedef struct 	s_map
 {
     char **grid;
@@ -44,6 +64,8 @@ typedef struct 	s_map
     int height;
     float player_x;
     float player_y;
+    t_player *player;
+    // int nb_lines; // to take care of nbr of lines, 
 }               t_map;
 
 typedef struct s_data
@@ -51,7 +73,10 @@ typedef struct s_data
     void    *mlx;
     void    *win;
     t_map   *map;
-    t_img	img;
+    t_player player;
+    t_img img;
+    int	win_height;
+    int win_width;
 }               t_data;
 
 void    print_message_and_free(char *message, t_data *data, int fd);

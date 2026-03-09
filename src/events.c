@@ -40,11 +40,13 @@ void 	game_render(t_data *data)
 		while(data->map->grid[i][j])
 		{
 			if (data->map->grid[i][j] == '1')
-				color = WHITE;
+				color = CHARCOAL;
 			else if (data->map->grid[i][j] == '0')
-				color = UBUNTU;
+				color = GREY;
+			else if (data->map->grid[i][j] == 'A')
+				color = YELLOW;
 			else
-				color = BLACK;
+				color = RED;
 			draw_tile(data, j, i, color);
 			j++;
 		}
@@ -70,6 +72,18 @@ int	close_handler(t_data *data)
 int	key_press_handler(int keysym, t_data *data)
 {
     if (keysym == XK_Escape)
+	    close_handler(data);
+    if (keysym == XK_a)
+	    close_handler(data);
+    if (keysym == XK_w)
+	    close_handler(data);
+    if (keysym == XK_d)
+	    close_handler(data);
+    if (keysym == XK_s)
+	    close_handler(data);
+    if (keysym == XK_h)
+	    close_handler(data);
+    if (keysym == XK_l)
 	    close_handler(data);
     // if (keysym == XK_Left || keysym == XK_a || keysym == XK_Right
     //  || keysym == XK_d || keysym == XK_Up || keysym == XK_w

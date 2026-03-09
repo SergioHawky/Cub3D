@@ -35,32 +35,51 @@ static int	count_lines(char *filename)
 
 static t_map	*fill_map(t_map *map, char *filename)
 {
-	int		fd;
-	char	*line;
-	size_t	i;
-	size_t len;
+    int	fd;
+    char 	*line;
+    size_t 	i;
+    size_t 	len;
 
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return (perror("Error:\n"), NULL);
-	i = 0;
-	line = NULL;
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		len = ft_strlen(line);
-		while (len > 0 && (line[len - 1] == '\n' || line[len - 1] == '\r'))  //mudo ou deixo assim?
-		{
-			line[len - 1] = '\0';
-			len--;
-		}
-		map->grid[i++] = line;
-	}
-	map->width = ft_strlen(map->grid[0]);
-	map->grid[i] = NULL;
-	return (close(fd), map);
+    fd = open(filename, O_RDONLY);
+    if (fd < 0)
+	    return (perror("Error:\n"), NULL);
+    i = 0;
+    line = NULL;
+    while (1)
+    {
+	    line = get_next_line(fd);
+	    if (!line)
+		    break ;
+	    len = ft_strlen(line);
+	    while (len > 0 && (line[len - 1] == '\n' || line[len - 1] == '\r'))  //mudo ou deixo assim?
+	    {
+		    line[len - 1] = '\0';
+		    len--;
+	    }
+	    map->grid[i++] = line;
+    }
+
+    // attempt so set player at first position.
+    size_t row = 0;
+    while (map->grid[row])
+    {
+        size_t col = 0;
+        while (map->grid[row][col])
+        {
+            char c = map->grid[row][col];
+            if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+            {
+		map->player_x = col;
+		map->player_y = row;
+            }
+            col++;
+        }
+        row++;
+    }
+    
+    map->width = ft_strlen(map->grid[0]);
+    map->grid[i] = NULL;
+    return (close(fd), map);
 }
 
 t_map   *parse_map(char *filename)
@@ -70,10 +89,11 @@ t_map   *parse_map(char *filename)
     map = malloc(sizeof(t_map));
     if (!map)
         return (NULL);
-    if (count_lines(filename) == -1)
-        return (free(map), NULL);
+    // map->nb_lines = count_lines(filename);
+    // if (map->nb_lines == -1)
+    //     return (free(map), NULL);
     map->height = count_lines(filename);
-    if (map->height <=  2)
+    if (map->height <= 2 || map->height == -1)
         return (free(map), NULL);
     map->grid = malloc(sizeof(char *) * (map->height + 1));
     if (!map->grid)
