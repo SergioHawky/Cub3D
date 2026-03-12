@@ -55,6 +55,7 @@ typedef struct 	s_player
     float y;
     float dir_x;
     float dir_y;
+    float move_speed;
     float rot_speed;
 }               t_player;
 
@@ -78,5 +79,6 @@ void    draw_player(t_data *data);
 void    ft_pixel_put(int x, int y, t_img *img, int color);
 void    init_player(t_data *data);
 void    rotate_player(t_data *data, float angle);
+void    move_player(t_data *data, float forward, float strafe);
 
 #endif

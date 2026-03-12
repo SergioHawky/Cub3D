@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 15:35:28 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/12 17:04:32 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/03/12 19:00:01 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void init_player(t_data *data)
 {
     data->player.x = data->map->player_initial_x;
     data->player.y = data->map->player_initial_y;
-    data->player.rot_speed = 0.12f;
+    data->player.move_speed = 0.20f;
+    data->player.rot_speed = 0.20f;
     if (data->map->player_initial_dir == 'N')
     {
         data->player.dir_x = 0.0f;
@@ -37,6 +38,21 @@ void init_player(t_data *data)
         data->player.dir_x = 1.0f;
         data->player.dir_y = 0.0f;
     }
+}
+
+void    move_player(t_data *data, float forward, float strafe)
+{
+    float move_x;
+    float move_y;
+
+    move_x = 0.0f;
+    move_y = 0.0f;
+    move_x += data->player.dir_x * data->player.move_speed * forward;
+    move_y += data->player.dir_y * data->player.move_speed * forward;
+    move_x += -data->player.dir_y * data->player.move_speed * strafe;
+    move_y += data->player.dir_x * data->player.move_speed * strafe;
+    data->player.x += move_x;
+    data->player.y += move_y;
 }
 
 void rotate_player(t_data *data, float angle)

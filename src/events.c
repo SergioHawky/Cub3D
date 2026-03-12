@@ -76,10 +76,14 @@ int	key_press_handler(int keysym, t_data *data)
         rotate_player(data, -data->player.rot_speed);
     else if (keysym == XK_Right)
         rotate_player(data, data->player.rot_speed);
-    // if (keysym == XK_Left || keysym == XK_a || keysym == XK_Right
-    //  || keysym == XK_d || keysym == XK_Up || keysym == XK_w
-    //  || keysym == XK_Down || keysym == XK_s || keysym == XK_i
-    //  || keysym == XK_o || keysym == XK_0)
+    else if (keysym == XK_w)
+        move_player(data, 1.0f, 0.0f);
+    else if (keysym == XK_s)
+        move_player(data, -1.0f, 0.0f);
+    else if (keysym == XK_a)
+        move_player(data, 0.0f, -1.0f);
+    else if (keysym == XK_d)
+        move_player(data, 0.0f, 1.0f);
     //  key_zoom_handler(keysym, fractal);
     // if (keysym == XK_equal || keysym == XK_e || keysym == XK_minus
     //  || keysym == XK_q || keysym == XK_1 || keysym == XK_2 || keysym == XK_3
