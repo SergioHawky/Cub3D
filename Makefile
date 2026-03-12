@@ -14,6 +14,7 @@ SRCS = src/main.c \
 	   src/map_checker_1.c \
 	   src/map_checker_2.c \
 	   src/utils.c \
+	   src/player.c \
 	   src/events.c
 
 OBJS = $(SRCS:.c=.o)

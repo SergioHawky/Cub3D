@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 13:49:31 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/07 18:20:14 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/03/12 16:19:08 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,17 @@ static int  check_characters(t_map *map)
             if (map->grid[i][j] == 'N' || map->grid[i][j] == 'S' || map->grid[i][j] == 'E' || map->grid[i][j] == 'W')
             {
                 player_count++;
-                map->player_x = j;
-                map->player_y = i;
+                map->player_initial_x = j;
+                map->player_initial_y = i;
+                map->grid[i][j] = '0';
             }
             else if (map->grid[i][j] == 'A')
+            {
                 exit_count++;
+                map->exit_x = j;
+                map->exit_y = i;
+                map->grid[i][j] = '0';
+            }
             else if (map->grid[i][j] != '0' && map->grid[i][j] != '1' && map->grid[i][j] != ' ')
                 return (0);
             j++;
