@@ -63,6 +63,7 @@ typedef struct s_data
     void    *mlx;
     void    *win;
     t_map   *map;
+    t_player player;
     t_img	img;
 }               t_data;
 
@@ -75,5 +76,7 @@ void	events_init(t_data *data);
 void 	game_render(t_data *data);
 void    draw_player(t_data *data);
 void    ft_pixel_put(int x, int y, t_img *img, int color);
+void    init_player(t_data *data);
+void    rotate_player(t_data *data, float angle);
 
 #endif

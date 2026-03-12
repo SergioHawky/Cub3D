@@ -6,44 +6,66 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 15:35:28 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/12 16:44:50 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/03/12 17:04:32 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static void draw_player_direction(t_data *data, int cx, int cy, int r)
+void init_player(t_data *data)
 {
-    int dir_x;
-    int dir_y;
-    int len;
-    int i;
-
+    data->player.x = data->map->player_initial_x;
+    data->player.y = data->map->player_initial_y;
+    data->player.rot_speed = 0.12f;
     if (data->map->player_initial_dir == 'N')
     {
-        dir_x = 0;
-        dir_y = -1;
+        data->player.dir_x = 0.0f;
+        data->player.dir_y = -1.0f;
     }
     else if (data->map->player_initial_dir == 'S')
     {
-        dir_x = 0;
-        dir_y = 1;
+        data->player.dir_x = 0.0f;
+        data->player.dir_y = 1.0f;
     }
     else if (data->map->player_initial_dir == 'W')
     {
-        dir_x = -1;
-        dir_y = 0;
+        data->player.dir_x = -1.0f;
+        data->player.dir_y = 0.0f;
     }
-    else if (data->map->player_initial_dir == 'E')
+    else
     {
-        dir_x = 1;
-        dir_y = 0;
+        data->player.dir_x = 1.0f;
+        data->player.dir_y = 0.0f;
     }
+}
+
+void rotate_player(t_data *data, float angle)
+{
+    float old_dir_x;
+    float cos_a;
+    float sin_a;
+
+    old_dir_x = data->player.dir_x;
+    cos_a = cosf(angle);
+    sin_a = sinf(angle);
+    data->player.dir_x = data->player.dir_x * cos_a - data->player.dir_y * sin_a;
+    data->player.dir_y = old_dir_x * sin_a + data->player.dir_y * cos_a;
+}
+
+static void draw_player_direction(t_data *data, int cx, int cy, int r)
+{
+    float dir_x;
+    float dir_y;
+    int len;
+    int i;
+
+    dir_x = data->player.dir_x;
+    dir_y = data->player.dir_y;
     len = r + 8;
     i = 0;
     while (i <= len)
     {
-        ft_pixel_put(cx + dir_x * i, cy + dir_y * i, &data->img, WHITE);
+        ft_pixel_put(cx + (dir_x * i), cy + (dir_y * i), &data->img, WHITE);
         i++;
     }
 }
@@ -57,8 +79,8 @@ void    draw_player(t_data *data)
     int dy;
 
     r = PX / 2 - 10;
-    cx = (int)(data->map->player_initial_x * PX) + PX / 2;
-    cy = (int)(data->map->player_initial_y * PX) + PX / 2;
+    cx = (int)(data->player.x * PX) + PX / 2;
+    cy = (int)(data->player.y * PX) + PX / 2;
     dy = -r;
     while (dy <= r)
     {

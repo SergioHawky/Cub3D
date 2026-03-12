@@ -72,6 +72,10 @@ int	key_press_handler(int keysym, t_data *data)
 {
     if (keysym == XK_Escape)
 	    close_handler(data);
+    else if (keysym == XK_Left)
+        rotate_player(data, -data->player.rot_speed);
+    else if (keysym == XK_Right)
+        rotate_player(data, data->player.rot_speed);
     // if (keysym == XK_Left || keysym == XK_a || keysym == XK_Right
     //  || keysym == XK_d || keysym == XK_Up || keysym == XK_w
     //  || keysym == XK_Down || keysym == XK_s || keysym == XK_i
