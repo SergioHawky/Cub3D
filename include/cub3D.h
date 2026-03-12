@@ -44,6 +44,7 @@ typedef struct 	s_map
     int height;
     float player_initial_x;
     float player_initial_y;
+    char player_initial_dir;
     int exit_x;
     int exit_y;
 }               t_map;
