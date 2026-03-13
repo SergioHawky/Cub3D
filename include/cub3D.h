@@ -80,5 +80,5 @@ void    ft_pixel_put(int x, int y, t_img *img, int color);
 void    init_player(t_data *data);
 void    rotate_player(t_data *data, float angle);
 void    move_player(t_data *data, float forward, float strafe);
-
+int     collision(t_data *data, float new_x, float new_y);
 #endif

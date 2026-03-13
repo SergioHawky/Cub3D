@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 15:35:28 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/12 19:00:01 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/03/13 15:40:43 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void    move_player(t_data *data, float forward, float strafe)
     move_y += data->player.dir_y * data->player.move_speed * forward;
     move_x += -data->player.dir_y * data->player.move_speed * strafe;
     move_y += data->player.dir_x * data->player.move_speed * strafe;
+    if (collision(data, data->player.x + move_x, data->player.y + move_y))
+        return ;
     data->player.x += move_x;
     data->player.y += move_y;
 }
