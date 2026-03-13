@@ -18,7 +18,7 @@ SRCS = src/main.c \
 
 OBJS = $(SRCS:.c=.o)
 
-all: mlx $(NAME)
+all: mlx libft.a $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -Llibft -lft $(MLXFLAGS) -o $(NAME)
@@ -30,11 +30,17 @@ mlx:
 		make -C $(MLX); \
 	fi
 
+libft.a:
+	@make -s -C libft
+
 clean:
+	@make clean -C libft
 	rm -f $(OBJS)
 	@echo "$(YELLOW)Removed obj files...$(OFF)"
 
 fclean: clean
+	@make fclean -C libft
+	rm -f $(OBJS)
 	rm -f $(NAME)
 	@echo "$(YELLOW)Removed $(NAME) executable...$(OFF)"
 	@echo "Cub3D has been removed successfully!"
