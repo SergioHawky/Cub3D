@@ -6,11 +6,12 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 11:35:59 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/06 14:54:56 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/03/12 17:14:54 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
 int 	init_data(char **argv, t_data *data)
 {
     data->map = parse_map(argv[1]);
@@ -30,8 +31,8 @@ int 	init_data(char **argv, t_data *data)
         return(print_message_and_free("ERROR on mlx_new_image()", data, 2), 0);
 
     data->img.addr= mlx_get_data_addr(data->img.img_ptr, &data->img.bpp, &data->img.line_len, &data->img.endian);
+    init_player(data);
     
-
     events_init(data);
 
     return (1);

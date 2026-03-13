@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 14:42:25 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/07 18:20:33 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/03/09 17:04:44 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int  check_borders(t_map *map)
     if (!copy)
         return (0);
     escaped = 0;
-    flood_fill(copy, map->player_x, map->player_y, &escaped);
+    flood_fill(copy, map->player_initial_x, map->player_initial_y, &escaped);
     if (escaped)
         result = 0;
     else
