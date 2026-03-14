@@ -42,6 +42,7 @@ int main(int argc, char **argv)
 {
     t_data data;
 
+    ft_memset(&data, 0, sizeof(t_data));
     if (argc != 2)
         return (print_message_and_free(ERROR_INVALID, NULL, 2), 1);
 

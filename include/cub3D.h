@@ -14,6 +14,8 @@
 # define PX 32
 # define WIDTH 1024
 # define HEIGHT 512 
+# define SPEED 0.03f 
+# define ROT_SPEED 0.20f 
 
 # define ERROR_INVALID \
     "ERROR: Invalid number of arguments\n\
@@ -59,6 +61,17 @@ typedef struct 	s_player
     float rot_speed;
 }               t_player;
 
+typedef enum e_key
+{
+    KEY_W = 0,
+    KEY_S,
+    KEY_A,
+    KEY_D,
+    KEY_H,
+    KEY_L,
+    KEY_COUNT
+}               t_key;
+
 typedef struct s_data
 {
     void    *mlx;
@@ -66,6 +79,7 @@ typedef struct s_data
     t_map   *map;
     t_player player;
     t_img	img;
+    int     keys[KEY_COUNT];
 }               t_data;
 
 void    print_message_and_free(char *message, t_data *data, int fd);
@@ -74,6 +88,7 @@ t_map   *parse_map(char *filename);
 void    clean_map(t_map *map);
 t_map   *copy_map(t_map *original); int     check_borders(t_map *map);
 void	events_init(t_data *data);
+int     game_loop(t_data *data);
 void 	game_render(t_data *data);
 void    draw_player(t_data *data);
 void    ft_pixel_put(int x, int y, t_img *img, int color);

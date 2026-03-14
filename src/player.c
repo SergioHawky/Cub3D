@@ -16,8 +16,8 @@ void init_player(t_data *data)
 {
     data->player.x = data->map->player_initial_x + 0.5f;
     data->player.y = data->map->player_initial_y + 0.5f;
-    data->player.move_speed = 0.20f;
-    data->player.rot_speed = 0.20f;
+    data->player.move_speed = SPEED;
+    data->player.rot_speed = ROT_SPEED;
     if (data->map->player_initial_dir == 'N')
     {
         data->player.dir_x = 0.0f;

@@ -62,4 +62,12 @@ vs:
 ve:
 	valgrind --leak-check=full --show-leak-kinds=all ./cub3D maps/e.cub
 
+cc:
+	./cub3D maps/map1.cub
+ca:
+	./cub3D maps/a.cub
+cs:
+	./cub3D maps/s.cub
+
+
 .PHONY: all clean fclean re ffclean vc mlx
