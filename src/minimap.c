@@ -12,14 +12,30 @@
 
 #include "cub3D.h"
 
+static int  is_wall(t_data *data, float x, float y)
+{
+    int ix;
+    int iy;
+
+    ix = (int)x;
+    iy = (int)y;
+    if (ix < 0 || iy < 0 || iy >= data->map->height || ix >= data->map->width)
+        return (1);
+    return (data->map->grid[iy][ix] == '1');
+}
+
 int    collision(t_data *data, float new_x, float new_y)
 {
-    int x;
-    int y;
+    float m;
 
-    x = (int)new_x;
-    y = (int)new_y;
-    if (data->map->grid[y][x] == '1')
+    m = 0.2f;
+    if (is_wall(data, new_x - m, new_y - m))
+        return (1);
+    if (is_wall(data, new_x + m, new_y - m))
+        return (1);
+    if (is_wall(data, new_x - m, new_y + m))
+        return (1);
+    if (is_wall(data, new_x + m, new_y + m))
         return (1);
     return (0);
 }

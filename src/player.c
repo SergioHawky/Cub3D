@@ -14,8 +14,8 @@
 
 void init_player(t_data *data)
 {
-    data->player.x = data->map->player_initial_x;
-    data->player.y = data->map->player_initial_y;
+    data->player.x = data->map->player_initial_x + 0.5f;
+    data->player.y = data->map->player_initial_y + 0.5f;
     data->player.move_speed = 0.20f;
     data->player.rot_speed = 0.20f;
     if (data->map->player_initial_dir == 'N')
@@ -51,10 +51,10 @@ void    move_player(t_data *data, float forward, float strafe)
     move_y += data->player.dir_y * data->player.move_speed * forward;
     move_x += -data->player.dir_y * data->player.move_speed * strafe;
     move_y += data->player.dir_x * data->player.move_speed * strafe;
-    if (collision(data, data->player.x + move_x, data->player.y + move_y))
-        return ;
-    data->player.x += move_x;
-    data->player.y += move_y;
+    if (!collision(data, data->player.x + move_x, data->player.y))
+        data->player.x += move_x;
+    if (!collision(data, data->player.x, data->player.y + move_y))
+        data->player.y += move_y;
 }
 
 void rotate_player(t_data *data, float angle)
@@ -97,8 +97,8 @@ void    draw_player(t_data *data)
     int dy;
 
     r = PX / 2 - 10;
-    cx = (int)(data->player.x * PX) + PX / 2;
-    cy = (int)(data->player.y * PX) + PX / 2;
+    cx = (int)(data->player.x * PX);
+    cy = (int)(data->player.y * PX);
     dy = -r;
     while (dy <= r)
     {
