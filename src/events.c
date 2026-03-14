@@ -51,7 +51,7 @@ void 	game_render(t_data *data)
 		i++;
 	}
     draw_player(data);
-	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
+    mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
 
 int	close_handler(t_data *data)
@@ -80,36 +80,10 @@ int	key_press_handler(int keysym, t_data *data)
 	data->keys[KEY_A] = 1;
     else if (keysym == XK_d)
 	data->keys[KEY_D] = 1;
-	//    else if (keysym == XK_Left || keysym == XK_h)
-	// data->keys[KEY_H] = 1;
-	//    else if (keysym == XK_Right || keysym == XK_l)
-	// data->keys[KEY_L] = 1;
-
     else if (keysym == XK_Left || keysym == XK_h)
         rotate_player(data, -data->player.rot_speed);
     else if (keysym == XK_Right || keysym == XK_l)
         rotate_player(data, data->player.rot_speed);
-    // else if (keysym == XK_w)
-    //     move_player(data, 1.0f, 0.0f);
-    // else if (keysym == XK_s)
-    //     move_player(data, -1.0f, 0.0f);
-    // else if (keysym == XK_a)
-    //     move_player(data, 0.0f, -1.0f);
-    // else if (keysym == XK_d)
-    //     move_player(data, 0.0f, 1.0f);
-    //  key_zoom_handler(keysym, fractal);
-    // if (keysym == XK_equal || keysym == XK_e || keysym == XK_minus
-    //  || keysym == XK_q || keysym == XK_1 || keysym == XK_2 || keysym == XK_3
-    //  || keysym == XK_4 || keysym == XK_5)
-    //  key_iter_handler(keysym, fractal);
-    // if (keysym == XK_z || keysym == XK_x || keysym == XK_c || keysym == XK_v)
-    //  key_color_handler(keysym, fractal);
-    // if (keysym == XK_g || keysym == XK_h || keysym == XK_j || keysym == XK_k
-    //  || keysym == XK_l)
-    //  key_mods_handler(keysym, fractal);
-
-    // after player and textures are make, add game_render():
-    // game_render(data);
     return (0);
 }
 
@@ -123,10 +97,6 @@ int	key_release_handler(int keysym, t_data *data)
 	data->keys[KEY_A] = 0;
     else if (keysym == XK_d)
 	data->keys[KEY_D] = 0;
-	//    else if (keysym == XK_Left || keysym == XK_h)
-	// data->keys[KEY_H] = 0;
-	//    else if (keysym == XK_Right || keysym == XK_l)
-	// data->keys[KEY_L] = 0;
     return (0);
 }
 
@@ -140,10 +110,6 @@ int game_loop(t_data *data)
 	move_player(data, 0.0f, -SPEED);
     if (data->keys[KEY_D])
 	move_player(data, 0.0f, SPEED);
-	//    if (data->keys[KEY_H])
-	// rotate_player(data, -data->player.rot_speed);
-	//    if (data->keys[KEY_L])
-	// rotate_player(data, data->player.rot_speed);
     game_render(data);
     return (0);
 }

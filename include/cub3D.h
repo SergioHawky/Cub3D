@@ -67,8 +67,6 @@ typedef enum e_key
     KEY_S,
     KEY_A,
     KEY_D,
-    KEY_H,
-    KEY_L,
     KEY_COUNT
 }               t_key;
 
