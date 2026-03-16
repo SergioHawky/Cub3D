@@ -29,6 +29,10 @@
 # define WHITE 0xFFFFFF
 # define UBUNTU 0x5E2750
 # define PINK 0xFF69B4
+# define YELLOW 0xFFEA00
+# define RED 0xDC143C
+# define GREY 0xB2BEB5        // light grey
+# define CHARCOAL 0x36454F    // dark grey
 
 typedef struct 	s_img
 {
