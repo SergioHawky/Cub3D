@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 15:35:28 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/13 15:40:43 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/03/17 11:49:39 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void draw_player_direction(t_data *data, int cx, int cy, int r)
     i = 0;
     while (i <= len)
     {
-        ft_pixel_put(cx + (dir_x * i), cy + (dir_y * i), &data->img, WHITE);
+        ft_pixel_put(cx + (dir_x * i), cy + (dir_y * i), &data->img, WHITE);  //dar cast para int?
         i++;
     }
 }

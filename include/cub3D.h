@@ -14,7 +14,7 @@
 # define PX 32
 # define WIDTH 1024
 # define HEIGHT 512 
-# define SPEED 0.03f 
+# define SPEED 0.05f 
 # define ROT_SPEED 0.20f 
 
 # define ERROR_INVALID \
@@ -88,7 +88,8 @@ void    print_message_and_free(char *message, t_data *data, int fd);
 int     check_if_map_is_valid(t_map *map, char *filename);
 t_map   *parse_map(char *filename);
 void    clean_map(t_map *map);
-t_map   *copy_map(t_map *original); int     check_borders(t_map *map);
+t_map   *copy_map(t_map *original); 
+int     check_borders(t_map *map);
 void	events_init(t_data *data);
 int     game_loop(t_data *data);
 void 	game_render(t_data *data);
@@ -98,4 +99,6 @@ void    init_player(t_data *data);
 void    rotate_player(t_data *data, float angle);
 void    move_player(t_data *data, float forward, float strafe);
 int     collision(t_data *data, float new_x, float new_y);
+void    draw_map(t_data *data);
+
 #endif

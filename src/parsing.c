@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:42:18 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/06 17:21:16 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/03/17 11:07:17 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ int	calc_width(t_map *map)
     i = 0;
     while (map->grid[i])
     {
-	len = ft_strlen(map->grid[i]);
-	if (len > n)
-	    n = len;
-	i++;
+	    len = ft_strlen(map->grid[i]);
+	    if (len > n)
+	        n = len;
+	    i++;
     }
     return (n);
 }
@@ -101,8 +101,8 @@ t_map   *parse_map(char *filename)
         return (free(map->grid), free(map), NULL);
     map = fill_map(map, filename);
     if (!map)
-	return (ft_putstr_fd("Error reading map\n", 2), NULL);
+	    return (ft_putstr_fd("Error reading map\n", 2), NULL);
     if (check_if_map_is_valid(map, filename) == 0)
-	return (clean_map(map), NULL);
+	    return (clean_map(map), NULL);
     return (map);
 }
