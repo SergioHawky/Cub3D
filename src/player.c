@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 15:35:28 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/17 11:49:39 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/03/18 15:28:33 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,20 +70,44 @@ void rotate_player(t_data *data, float angle)
     data->player.dir_y = old_dir_x * sin_a + data->player.dir_y * cos_a;
 }
 
-static void draw_player_direction(t_data *data, int cx, int cy, int r)
+void	draw_line(t_player *player, t_data *data, float ray_angle)
 {
-    float dir_x;
-    float dir_y;
-    int len;
-    int i;
+    float	cos_angle;
+    float	sin_angle;
+    float	ray_x;
+    float	ray_y;
+    float	step;
 
-    dir_x = data->player.dir_x;
-    dir_y = data->player.dir_y;
-    len = r + 8;
-    i = 0;
-    while (i <= len)
+    cos_angle = cosf(ray_angle);
+    sin_angle = sinf(ray_angle);
+    ray_x = player->x;
+    ray_y = player->y;
+    step = 0.03f;
+    while (!is_wall(data, ray_x, ray_y))
     {
-        ft_pixel_put(cx + (dir_x * i), cy + (dir_y * i), &data->img, WHITE);  //dar cast para int?
+        ft_pixel_put((int)(ray_x * PX), (int)(ray_y * PX), &data->img, RED);
+        ray_x += cos_angle * step;
+        ray_y += sin_angle * step;
+    }
+}
+
+void    draw_players_fov(t_data *data)
+{
+    float		fraction;
+    float		start_angle;
+    float		player_angle;
+    int		i;
+    t_player	*player;
+
+    player = &data->player;
+    player_angle = atan2(player->dir_y, player->dir_x);
+    fraction = FOV / WIDTH;
+    start_angle = player_angle - (FOV / 2);
+    i = 0;
+    while (i < WIDTH)
+    {
+        draw_line(player, data, start_angle);
+        start_angle += fraction;
         i++;
     }
 }
@@ -111,5 +135,5 @@ void    draw_player(t_data *data)
         }
         dy++;
     }
-    draw_player_direction(data, cx, cy, r);
+    draw_players_fov(data);
 }

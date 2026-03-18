@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 11:40:03 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/17 17:20:38 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/03/18 15:30:38 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void 	game_render(t_data *data)
     mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
 
-int	close_handler(t_data *data)
+static int	close_handler(t_data *data)
 {
     // does cub3d need "mlx_destroy_image()" function?.
     // if so... what could be the "fractal->img.img_ptr"?

@@ -11,12 +11,16 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 
+// MACROS
 # define PX 32
 # define WIDTH 1024
 # define HEIGHT 512 
-# define SPEED 0.05f 
-# define ROT_SPEED 0.20f 
+# define SPEED 0.08f 
+# define ROT_SPEED 0.20f
+# define PI 3.14159265358979323846f
+# define FOV (60.0f * PI / 180.0f)      //graus * PI / 180
 
+// ERROR MESSAGES
 # define ERROR_INVALID \
     "ERROR: Invalid number of arguments\n\
     Usage: './cub3d maps/<any_map>.cub'\n"
@@ -100,5 +104,6 @@ void    rotate_player(t_data *data, float angle);
 void    move_player(t_data *data, float forward, float strafe);
 int     collision(t_data *data, float new_x, float new_y);
 void    draw_map(t_data *data);
+int     is_wall(t_data *data, float x, float y);
 
 #endif

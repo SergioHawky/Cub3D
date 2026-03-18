@@ -6,13 +6,13 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 15:35:24 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/17 11:32:31 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/03/18 14:58:13 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static int  is_wall(t_data *data, float x, float y)
+int  is_wall(t_data *data, float x, float y)
 {
     int ix;
     int iy;
