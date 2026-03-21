@@ -48,7 +48,7 @@ static void init_ray(t_data *data, t_ray *ray, int n)
 	set_ray(data, ray);
 }
 
-static void grid_analyzer(t_data *data, t_ray *ray)
+static void dda(t_data *data, t_ray *ray)
 {
 	int hit;
 
@@ -109,7 +109,7 @@ void cast_rays(t_data *data)
 	while (n < NUM_RAYS)
 	{
 		init_ray(data, &ray, n);
-		grid_analyzer(data, &ray);
+		dda(data, &ray);
 		if (ray.side == 0)
 			t = (ray.map_x - data->player.x + (1 - ray.step_x) / 2.0f) / ray.dir_x;
 		else

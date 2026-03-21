@@ -50,6 +50,10 @@ void 	game_render(t_data *data)
 		}
 		i++;
 	}
+    // TODO:
+    // similar to: https://youtu.be/G9i78WoBBIU 
+    // at 8'15", where he defines a DEBUG macro to render the 2d map, when DEBUG = 1
+    // if (MINIMAP), draw_player(); 
     draw_player(data);
     cast_rays(data);
     mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);

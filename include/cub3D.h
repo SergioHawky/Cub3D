@@ -11,6 +11,8 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 
+# define MINIMAP 1
+
 # define PX 32
 # define WIDTH 1024
 # define HEIGHT 512 
