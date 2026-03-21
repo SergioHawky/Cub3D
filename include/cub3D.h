@@ -16,6 +16,7 @@
 # define HEIGHT 512 
 # define SPEED 0.03f 
 # define ROT_SPEED 0.20f 
+# define NUM_RAYS 60
 
 # define ERROR_INVALID \
     "ERROR: Invalid number of arguments\n\
@@ -61,9 +62,26 @@ typedef struct 	s_player
     float y;
     float dir_x;
     float dir_y;
+    float plane_x;
+    float plane_y;
     float move_speed;
     float rot_speed;
 }               t_player;
+
+typedef struct s_ray
+{
+    float   dir_x;
+    float   dir_y;
+    int     map_x;
+    int     map_y;
+    float   delta_x;
+    float   delta_y;
+    float   side_x;
+    float   side_y;
+    int     step_x;
+    int     step_y;
+    int     side;
+}               t_ray;
 
 typedef enum e_key
 {
@@ -98,4 +116,6 @@ void    init_player(t_data *data);
 void    rotate_player(t_data *data, float angle);
 void    move_player(t_data *data, float forward, float strafe);
 int     collision(t_data *data, float new_x, float new_y);
+void	cast_rays(t_data *data);
+
 #endif

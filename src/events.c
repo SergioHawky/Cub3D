@@ -51,6 +51,7 @@ void 	game_render(t_data *data)
 		i++;
 	}
     draw_player(data);
+    cast_rays(data);
     mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
 

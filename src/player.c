@@ -12,12 +12,8 @@
 
 #include "cub3D.h"
 
-void init_player(t_data *data)
+void	set_player_position(t_data *data)
 {
-    data->player.x = data->map->player_initial_x + 0.5f;
-    data->player.y = data->map->player_initial_y + 0.5f;
-    data->player.move_speed = SPEED;
-    data->player.rot_speed = ROT_SPEED;
     if (data->map->player_initial_dir == 'N')
     {
         data->player.dir_x = 0.0f;
@@ -38,6 +34,18 @@ void init_player(t_data *data)
         data->player.dir_x = 1.0f;
         data->player.dir_y = 0.0f;
     }
+    data->player.plane_x = -data->player.dir_y * 0.66f;
+    data->player.plane_y = data->player.dir_x * 0.66f;
+}
+
+
+void init_player(t_data *data)
+{
+    data->player.x = data->map->player_initial_x + 0.5f;
+    data->player.y = data->map->player_initial_y + 0.5f;
+    data->player.move_speed = SPEED;
+    data->player.rot_speed = ROT_SPEED;
+    set_player_position(data);
 }
 
 void    move_player(t_data *data, float forward, float strafe)
@@ -60,6 +68,7 @@ void    move_player(t_data *data, float forward, float strafe)
 void rotate_player(t_data *data, float angle)
 {
     float old_dir_x;
+    float old_plane_x;
     float cos_a;
     float sin_a;
 
@@ -68,6 +77,9 @@ void rotate_player(t_data *data, float angle)
     sin_a = sinf(angle);
     data->player.dir_x = data->player.dir_x * cos_a - data->player.dir_y * sin_a;
     data->player.dir_y = old_dir_x * sin_a + data->player.dir_y * cos_a;
+    old_plane_x = data->player.plane_x;
+    data->player.plane_x = old_plane_x * cos_a - data->player.plane_y * sin_a;
+    data->player.plane_y = old_plane_x * sin_a + data->player.plane_y * cos_a;
 }
 
 static void draw_player_direction(t_data *data, int cx, int cy, int r)
