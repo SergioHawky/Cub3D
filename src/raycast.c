@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycast.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cmanuel- <cmanuel-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/25 20:37:20 by cmanuel-          #+#    #+#             */
+/*   Updated: 2026/03/25 20:37:23 by cmanuel-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "cub3D.h"
 
@@ -50,29 +61,29 @@ void	dda(t_data *data, t_ray *ray)
 	}
 }
 
-static void draw_ray_line(t_data *data, int x0, int y0, int x1, int y1)
+static void	draw_ray_line(t_data *data, t_point p0, t_point p1)
 {
-    float   dx;
-    float   dy;
-    float   steps;
-    int     i;
-    int     px;
-    int     py;
+	float	dx;
+	float	dy;
+	float	steps;
+	int		i;
+	int		px;
+	int		py;
 
-    dx = x1 - x0;
-    dy = y1 - y0;
-    steps = fmaxf(fabsf(dx), fabsf(dy));
-    if (steps == 0)
-        return ;
-    i = 0;
-    while (i <= (int)steps)
-    {
-        px = x0 + (int)(dx * i / steps);
-        py = y0 + (int)(dy * i / steps);
-        if (px >= 0 && px < WIDTH && py >= 0 && py < HEIGHT)
-            ft_pixel_put(px, py, &data->img, YELLOW);
-        i++;
-    }
+	dx = p1.x - p0.x;
+	dy = p1.y - p0.y;
+	steps = fmaxf(fabsf(dx), fabsf(dy));
+	if (steps == 0)
+		return ;
+	i = 0;
+	while (i <= (int)steps)
+	{
+		px = p0.x + (int)(dx * i / steps);
+		py = p0.y + (int)(dy * i / steps);
+		if (px >= 0 && px < WIDTH && py >= 0 && py < HEIGHT)
+			ft_pixel_put(px, py, &data->img, YELLOW);
+		i++;
+	}
 }
 
 void	cast_rays(t_data *data)
@@ -94,9 +105,9 @@ void	cast_rays(t_data *data)
 			t = (ray.map_x - data->player.x + (1 - ray.step_x) / 2.0f) / ray.dir_x;
 		else
 			t = (ray.map_y - data->player.y + (1 - ray.step_y) / 2.0f) / ray.dir_y;
-		draw_ray_line(data, cx, cy,
-			MM_OFF_X + (int)((data->player.x + ray.dir_x * t) * MM_TILE),
-			MM_OFF_Y + (int)((data->player.y + ray.dir_y * t) * MM_TILE));
+		draw_ray_line(data, (t_point){cx, cy},
+			(t_point){MM_OFF_X + (int)((data->player.x + ray.dir_x * t) * MM_TILE),
+				MM_OFF_Y + (int)((data->player.y + ray.dir_y * t) * MM_TILE)});
 		n++;
 	}
 }
