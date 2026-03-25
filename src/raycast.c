@@ -1,56 +1,29 @@
 
 #include "cub3D.h"
 
-static int ray_hit(t_data *data, int mx, int my)
+void	init_ray(t_data *data, t_ray *ray, float camera_x)
 {
-	if (mx < 0 || my < 0 || my >= data->map->height || mx >= data->map->width)
-		return (1);
-	if (!data->map->grid[my][mx])
-		return (1);
-	return (data->map->grid[my][mx] == '1');
-}
-
-static void set_ray(t_data *data, t_ray *ray)
-{
-    if (ray->dir_x < 0)
-    {
-        ray->step_x = -1;
-        ray->side_x = (data->player.x - ray->map_x) * ray->delta_x;
-    }
-    else
-    {
-        ray->step_x = 1;
-        ray->side_x = (ray->map_x + 1.0f - data->player.x) * ray->delta_x;
-    }
-    if (ray->dir_y < 0)
-    {
-        ray->step_y = -1;
-        ray->side_y = (data->player.y - ray->map_y) * ray->delta_y;
-    }
-    else
-    {
-        ray->step_y = 1;
-        ray->side_y = (ray->map_y + 1.0f - data->player.y) * ray->delta_y;
-    }
-}
-
-static void init_ray(t_data *data, t_ray *ray, int n)
-{
-	float camera_x;
-
-	camera_x = 2.0f * n / (float)(NUM_RAYS - 1) - 1.0f;
-	ray->dir_x = data->player.dir_x + data->player.plane_x *camera_x;
-	ray->dir_y = data->player.dir_y + data->player.plane_y *camera_x;
+	ray->dir_x = data->player.dir_x + data->player.plane_x * camera_x;
+	ray->dir_y = data->player.dir_y + data->player.plane_y * camera_x;
 	ray->map_x = (int)data->player.x;
 	ray->map_y = (int)data->player.y;
 	ray->delta_x = fabsf(ray->dir_y);
 	ray->delta_y = fabsf(ray->dir_x);
-	set_ray(data, ray);
+	ray->step_x = (ray->dir_x < 0) ? -1 : 1;
+	if (ray->dir_x < 0)
+		ray->side_x = (data->player.x - ray->map_x) * ray->delta_x;
+	else
+		ray->side_x = (ray->map_x + 1.0f - data->player.x) * ray->delta_x;
+	ray->step_y = (ray->dir_y < 0) ? -1 : 1;
+	if (ray->dir_y < 0)
+		ray->side_y = (data->player.y - ray->map_y) * ray->delta_y;
+	else
+		ray->side_y = (ray->map_y + 1.0f - data->player.y) * ray->delta_y;
 }
 
-static void dda(t_data *data, t_ray *ray)
+void	dda(t_data *data, t_ray *ray)
 {
-	int hit;
+	int	hit;
 
 	hit = 0;
 	while (!hit)
@@ -67,7 +40,12 @@ static void dda(t_data *data, t_ray *ray)
 			ray->map_y += ray->step_y;
 			ray->side = 1;
 		}
-		if (ray_hit(data, ray->map_x, ray->map_y))
+		if (ray->map_x < 0 || ray->map_y < 0
+			|| ray->map_y >= data->map->height
+			|| ray->map_x >= data->map->width)
+			hit = 1;
+		else if (!data->map->grid[ray->map_y][ray->map_x]
+			|| data->map->grid[ray->map_y][ray->map_x] == '1')
 			hit = 1;
 	}
 }
@@ -108,7 +86,7 @@ void cast_rays(t_data *data)
 	n = 0;
 	while (n < NUM_RAYS)
 	{
-		init_ray(data, &ray, n);
+		init_ray(data, &ray, 2.0f * n / (float)(NUM_RAYS - 1) - 1.0f);
 		dda(data, &ray);
 		if (ray.side == 0)
 			t = (ray.map_x - data->player.x + (1 - ray.step_x) / 2.0f) / ray.dir_x;

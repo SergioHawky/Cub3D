@@ -118,6 +118,9 @@ void    init_player(t_data *data);
 void    rotate_player(t_data *data, float angle);
 void    move_player(t_data *data, float forward, float strafe);
 int     collision(t_data *data, float new_x, float new_y);
+void	init_ray(t_data *data, t_ray *ray, float camera_x);
+void	dda(t_data *data, t_ray *ray);
 void	cast_rays(t_data *data);
+void	render_3d(t_data *data);
 
 #endif

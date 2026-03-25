@@ -27,35 +27,39 @@ static void 	draw_tile(t_data *data, int x, int y, int color)
     }
 }
 
-void 	game_render(t_data *data)
+static void render_2d(t_data *data)
 {
     int i;
     int j;
     int color;
 
     i = 0;
-	while(data->map->grid[i])
-	{
-		j = 0;
-		while(data->map->grid[i][j])
-		{
-			if (data->map->grid[i][j] == '1')
-				color = WHITE;
-			else if (data->map->grid[i][j] == '0')
-				color = UBUNTU;
-			else
-				color = BLACK;
-			draw_tile(data, j, i, color);
-			j++;
-		}
-		i++;
-	}
-    // TODO:
-    // similar to: https://youtu.be/G9i78WoBBIU 
-    // at 8'15", where he defines a DEBUG macro to render the 2d map, when DEBUG = 1
-    // if (MINIMAP), draw_player(); 
+    while (data->map->grid[i])
+    {
+        j = 0;
+        while (data->map->grid[i][j])
+        {
+            if (data->map->grid[i][j] == '1')
+                color = WHITE;
+            else if (data->map->grid[i][j] == '0')
+                color = UBUNTU;
+            else
+                color = BLACK;
+            draw_tile(data, j, i, color);
+            j++;
+        }
+        i++;
+    }
     draw_player(data);
     cast_rays(data);
+}
+
+void 	game_render(t_data *data)
+{
+    if (MINIMAP)
+        render_2d(data);
+    else
+        render_3d(data);
     mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
 

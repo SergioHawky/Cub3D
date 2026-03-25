@@ -18,6 +18,7 @@ SRCS = src/main.c \
 	   src/events.c \
 	   src/minimap.c \
 	   src/raycast.c \
+	   src/render3d.c \
 
 OBJS = $(SRCS:.c=.o)
 
