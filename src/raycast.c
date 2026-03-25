@@ -75,14 +75,16 @@ static void draw_ray_line(t_data *data, int x0, int y0, int x1, int y1)
     }
 }
 
-void cast_rays(t_data *data)
+void	cast_rays(t_data *data)
 {
-    t_ray ray;
-	float t;
-	float hit_x;
-	float hit_y;
-	int	n;
+	t_ray	ray;
+	float	t;
+	int		n;
+	int		cx;
+	int		cy;
 
+	cx = MM_OFF_X + (int)(data->player.x * MM_TILE);
+	cy = MM_OFF_Y + (int)(data->player.y * MM_TILE);
 	n = 0;
 	while (n < NUM_RAYS)
 	{
@@ -92,12 +94,9 @@ void cast_rays(t_data *data)
 			t = (ray.map_x - data->player.x + (1 - ray.step_x) / 2.0f) / ray.dir_x;
 		else
 			t = (ray.map_y - data->player.y + (1 - ray.step_y) / 2.0f) / ray.dir_y;
-		hit_x = data->player.x + ray.dir_x * t;
-		hit_y = data->player.y + ray.dir_y * t;
-		// REDO draw_ray_line(), it has too many variables!
-		draw_ray_line(data,
-			(int)(data->player.x * PX), (int)(data->player.y * PX),
-			(int)(hit_x * PX), (int)(hit_y * PX));
+		draw_ray_line(data, cx, cy,
+			MM_OFF_X + (int)((data->player.x + ray.dir_x * t) * MM_TILE),
+			MM_OFF_Y + (int)((data->player.y + ray.dir_y * t) * MM_TILE));
 		n++;
 	}
 }

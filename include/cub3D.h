@@ -11,11 +11,14 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 
-# define MINIMAP 0
+# define MINIMAP 1
 
 # define PX 32
 # define WIDTH 1024
-# define HEIGHT 512 
+# define HEIGHT 512
+# define MM_TILE  8
+# define MM_OFF_X 5
+# define MM_OFF_Y 5
 # define SPEED 0.10f 
 # define ROT_SPEED 0.01f 
 # define NUM_RAYS 60
@@ -124,5 +127,6 @@ void	init_ray(t_data *data, t_ray *ray, float camera_x);
 void	dda(t_data *data, t_ray *ray);
 void	cast_rays(t_data *data);
 void	render_3d(t_data *data);
+void	draw_minimap(t_data *data);
 
 #endif

@@ -9,57 +9,11 @@ void	ft_pixel_put(int x, int y, t_img *img, int color)
 	*(unsigned int *)(img->addr + offset) = color;
 }
 
-static void 	draw_tile(t_data *data, int x, int y, int color)
-{
-    int px;
-    int py;
-
-    py = 0;
-    while (py < PX)
-    {
-	px = 0;
-	while (px < PX)
-	{
-	    ft_pixel_put(x * PX + px, y * PX + py, &data->img, color);
-	    px++;
-	}
-	py++;
-    }
-}
-
-static void render_2d(t_data *data)
-{
-    int i;
-    int j;
-    int color;
-
-    i = 0;
-    while (data->map->grid[i])
-    {
-        j = 0;
-        while (data->map->grid[i][j])
-        {
-            if (data->map->grid[i][j] == '1')
-                color = WHITE;
-            else if (data->map->grid[i][j] == '0')
-                color = UBUNTU;
-            else
-                color = BLACK;
-            draw_tile(data, j, i, color);
-            j++;
-        }
-        i++;
-    }
-    draw_player(data);
-    cast_rays(data);
-}
-
 void 	game_render(t_data *data)
 {
+    render_3d(data);
     if (MINIMAP)
-        render_2d(data);
-    else
-        render_3d(data);
+        draw_minimap(data);
     mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
 
