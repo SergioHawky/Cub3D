@@ -11,13 +11,13 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 
-# define MINIMAP 1
+# define MINIMAP 0
 
 # define PX 32
 # define WIDTH 1024
 # define HEIGHT 512 
-# define SPEED 0.03f 
-# define ROT_SPEED 0.20f 
+# define SPEED 0.10f 
+# define ROT_SPEED 0.01f 
 # define NUM_RAYS 60
 
 # define ERROR_INVALID \
@@ -91,6 +91,8 @@ typedef enum e_key
     KEY_S,
     KEY_A,
     KEY_D,
+    KEY_LEFT,
+    KEY_RIGHT,
     KEY_COUNT
 }               t_key;
 

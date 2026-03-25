@@ -90,9 +90,13 @@ int	key_press_handler(int keysym, t_data *data)
     else if (keysym == XK_d)
 	data->keys[KEY_D] = 1;
     else if (keysym == XK_Left || keysym == XK_h)
-        rotate_player(data, -data->player.rot_speed);
+	data->keys[KEY_LEFT] = 1;
     else if (keysym == XK_Right || keysym == XK_l)
-        rotate_player(data, data->player.rot_speed);
+	data->keys[KEY_RIGHT] = 1;
+//    else if (keysym == XK_Left || keysym == XK_h)
+//        rotate_player(data, -data->player.rot_speed);
+//    else if (keysym == XK_Right || keysym == XK_l)
+//        rotate_player(data, data->player.rot_speed);
     return (0);
 }
 
@@ -106,6 +110,10 @@ int	key_release_handler(int keysym, t_data *data)
 	data->keys[KEY_A] = 0;
     else if (keysym == XK_d)
 	data->keys[KEY_D] = 0;
+    else if (keysym == XK_Left || keysym == XK_h)
+	data->keys[KEY_LEFT] = 0;
+    else if (keysym == XK_Right || keysym == XK_l)
+	data->keys[KEY_RIGHT] = 0;
     return (0);
 }
 
@@ -119,6 +127,10 @@ int game_loop(t_data *data)
 	move_player(data, 0.0f, -SPEED);
     if (data->keys[KEY_D])
 	move_player(data, 0.0f, SPEED);
+    if (data->keys[KEY_LEFT])
+        rotate_player(data, -data->player.rot_speed);
+    if (data->keys[KEY_RIGHT])
+        rotate_player(data, data->player.rot_speed);
     game_render(data);
     return (0);
 }
