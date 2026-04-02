@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+// raycast
+
 #include "cub3D.h"
 
 void	init_ray(t_data *data, t_ray *ray, float camera_x)
