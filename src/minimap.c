@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 15:35:24 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/18 14:58:13 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/03/20 03:39:57 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,27 @@ void draw_map(t_data *data)
 		}
 		i++;
 	}
+    
+}
+
+void    draw_ray_minimap(t_data *data, t_ray *ray, int x)
+{
+    float	ray_x;
+    float	ray_y;
+    float	step;
+    float	dist;
+
+    if (x % 8 != 0)
+        return ;
+    ray_x = data->player.x;
+    ray_y = data->player.y;
+    step = 0.03f;
+    dist = 0.0f;
+    while (dist < ray->perp_dist)
+    {
+        ft_pixel_put((int)(ray_x * PX), (int)(ray_y * PX), &data->img, RED);
+        ray_x += ray->ray_dir_x * step;
+        ray_y += ray->ray_dir_y * step;
+        dist += step;
+    }
 }

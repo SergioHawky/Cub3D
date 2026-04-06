@@ -19,6 +19,7 @@
 # define ROT_SPEED 0.20f
 # define PI 3.14159265358979323846f
 # define FOV (60.0f * PI / 180.0f)      //graus * PI / 180
+# define PLANE_LEN tanf(FOV * 0.5f)
 
 // ERROR MESSAGES
 # define ERROR_INVALID \
@@ -65,9 +66,27 @@ typedef struct 	s_player
     float y;
     float dir_x;
     float dir_y;
+    float plane_x;
+    float plane_y;
     float move_speed;
     float rot_speed;
 }               t_player;
+
+typedef struct s_ray
+{
+    float   ray_dir_x;
+    float   ray_dir_y;
+    int     map_x;        // tile atual do raio
+    int     map_y;
+    float   delta_dist_x; // distância entre cruzamentos de grid em X
+    float   delta_dist_y;
+    float   side_dist_x;  // distância até ao próximo cruzamento X
+    float   side_dist_y;
+    int     step_x;       // direção de avanço (-1 ou +1)
+    int     step_y;
+    int     side;         // 0 = bateu em parede N/S, 1 = parede E/W
+    float   perp_dist;    // distância perpendicular (sem fisheye)
+}   t_ray;
 
 typedef enum e_key
 {
@@ -105,5 +124,11 @@ void    move_player(t_data *data, float forward, float strafe);
 int     collision(t_data *data, float new_x, float new_y);
 void    draw_map(t_data *data);
 int     is_wall(t_data *data, float x, float y);
+void    draw_ray_minimap(t_data *data, t_ray *ray, int x);
+void    render_3d(t_data *data);
+void    render_minimap_rays(t_data *data);
+int     key_press_handler(int keysym, t_data *data);
+int     key_release_handler(int keysym, t_data *data);
+int     close_handler(t_data *data);
 
 #endif

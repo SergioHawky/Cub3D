@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 15:35:28 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/18 15:28:33 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/03/20 04:40:08 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,29 @@ void init_player(t_data *data)
     {
         data->player.dir_x = 0.0f;
         data->player.dir_y = -1.0f;
+        data->player.plane_x = PLANE_LEN;   // perpendicular a (0,-1)
+        data->player.plane_y = 0.0f;
     }
     else if (data->map->player_initial_dir == 'S')
     {
         data->player.dir_x = 0.0f;
         data->player.dir_y = 1.0f;
+        data->player.plane_x = -PLANE_LEN;
+        data->player.plane_y = 0.0f;
     }
     else if (data->map->player_initial_dir == 'W')
     {
         data->player.dir_x = -1.0f;
         data->player.dir_y = 0.0f;
+        data->player.plane_x = 0.0f;
+        data->player.plane_y = -PLANE_LEN;
     }
     else
     {
         data->player.dir_x = 1.0f;
         data->player.dir_y = 0.0f;
+        data->player.plane_x = 0.0f;
+        data->player.plane_y = PLANE_LEN;
     }
 }
 
@@ -60,56 +68,18 @@ void    move_player(t_data *data, float forward, float strafe)
 void rotate_player(t_data *data, float angle)
 {
     float old_dir_x;
+    float old_plane_x;
     float cos_a;
     float sin_a;
 
     old_dir_x = data->player.dir_x;
+    old_plane_x = data->player.plane_x;
     cos_a = cosf(angle);
     sin_a = sinf(angle);
     data->player.dir_x = data->player.dir_x * cos_a - data->player.dir_y * sin_a;
     data->player.dir_y = old_dir_x * sin_a + data->player.dir_y * cos_a;
-}
-
-void	draw_line(t_player *player, t_data *data, float ray_angle)
-{
-    float	cos_angle;
-    float	sin_angle;
-    float	ray_x;
-    float	ray_y;
-    float	step;
-
-    cos_angle = cosf(ray_angle);
-    sin_angle = sinf(ray_angle);
-    ray_x = player->x;
-    ray_y = player->y;
-    step = 0.03f;
-    while (!is_wall(data, ray_x, ray_y))
-    {
-        ft_pixel_put((int)(ray_x * PX), (int)(ray_y * PX), &data->img, RED);
-        ray_x += cos_angle * step;
-        ray_y += sin_angle * step;
-    }
-}
-
-void    draw_players_fov(t_data *data)
-{
-    float		fraction;
-    float		start_angle;
-    float		player_angle;
-    int		i;
-    t_player	*player;
-
-    player = &data->player;
-    player_angle = atan2(player->dir_y, player->dir_x);
-    fraction = FOV / WIDTH;
-    start_angle = player_angle - (FOV / 2);
-    i = 0;
-    while (i < WIDTH)
-    {
-        draw_line(player, data, start_angle);
-        start_angle += fraction;
-        i++;
-    }
+    data->player.plane_x = data->player.plane_x * cos_a - data->player.plane_y * sin_a;
+    data->player.plane_y = old_plane_x * sin_a + data->player.plane_y * cos_a;
 }
 
 void    draw_player(t_data *data)
@@ -135,5 +105,4 @@ void    draw_player(t_data *data)
         }
         dy++;
     }
-    draw_players_fov(data);
 }
