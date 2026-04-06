@@ -11,12 +11,14 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 
+#define MINIMAP 1
+
 // MACROS
 # define PX 32
 # define WIDTH 1024
 # define HEIGHT 512 
-# define SPEED 0.08f 
-# define ROT_SPEED 0.20f
+# define SPEED 0.10f 
+# define ROT_SPEED 0.01f
 # define PI 3.14159265358979323846f
 # define FOV (60.0f * PI / 180.0f)      //graus * PI / 180
 # define PLANE_LEN tanf(FOV * 0.5f)
@@ -94,17 +96,19 @@ typedef enum e_key
     KEY_S,
     KEY_A,
     KEY_D,
+    KEY_LEFT,
+    KEY_RIGHT,
     KEY_COUNT
 }               t_key;
 
 typedef struct s_data
 {
-    void    *mlx;
-    void    *win;
-    t_map   *map;
-    t_player player;
-    t_img	img;
-    int     keys[KEY_COUNT];
+    void        *mlx;
+    void        *win;
+    t_map       *map;
+    t_player    player;
+    t_img	    img;
+    int         keys[KEY_COUNT];
 }               t_data;
 
 void    print_message_and_free(char *message, t_data *data, int fd);
@@ -122,7 +126,7 @@ void    init_player(t_data *data);
 void    rotate_player(t_data *data, float angle);
 void    move_player(t_data *data, float forward, float strafe);
 int     collision(t_data *data, float new_x, float new_y);
-void    draw_map(t_data *data);
+void    draw_minimap(t_data *data);
 int     is_wall(t_data *data, float x, float y);
 void    draw_ray_minimap(t_data *data, t_ray *ray, int x);
 void    render_3d(t_data *data);

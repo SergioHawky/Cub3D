@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 15:35:24 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/20 03:39:57 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/04/06 18:37:41 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void 	draw_tile(t_data *data, int x, int y, int color)
     }
 }
 
-void draw_map(t_data *data)
+void draw_minimap(t_data *data)
 {
     int i;
     int j;
@@ -81,7 +81,8 @@ void draw_map(t_data *data)
 		}
 		i++;
 	}
-    
+    render_minimap_rays(data);                      //aqui
+    draw_player(data);
 }
 
 void    draw_ray_minimap(t_data *data, t_ray *ray, int x)

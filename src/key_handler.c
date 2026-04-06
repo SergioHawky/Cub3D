@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 04:44:25 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/20 04:45:56 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/04/06 18:42:41 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	key_press_handler(int keysym, t_data *data)
     else if (keysym == XK_d)
 	    data->keys[KEY_D] = 1;
     else if (keysym == XK_Left || keysym == XK_h)
-        rotate_player(data, -data->player.rot_speed);
+        data->keys[KEY_LEFT] = 1;
     else if (keysym == XK_Right || keysym == XK_l)
-        rotate_player(data, data->player.rot_speed);
+        data->keys[KEY_RIGHT] = 1;
     return (0);
 }
 
@@ -41,6 +41,10 @@ int	key_release_handler(int keysym, t_data *data)
 	data->keys[KEY_A] = 0;
     else if (keysym == XK_d)
 	data->keys[KEY_D] = 0;
+    else if (keysym == XK_Left || keysym == XK_h)
+        data->keys[KEY_LEFT] = 0;
+    else if (keysym == XK_Right || keysym == XK_l)
+        data->keys[KEY_RIGHT] = 0;
     return (0);
 }
 

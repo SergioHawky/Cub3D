@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 11:40:03 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/20 04:46:18 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/04/06 18:43:10 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,9 @@ void	ft_pixel_put(int x, int y, t_img *img, int color)
 
 void 	game_render(t_data *data)
 {
-    render_3d(data);                                //aqui
-    draw_map(data);                                 //aqui
-    render_minimap_rays(data);                      //aqui
-    draw_player(data);
+    render_3d(data);
+    if (MINIMAP)
+        draw_minimap(data);
     mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
 
@@ -41,6 +40,10 @@ int game_loop(t_data *data)
 	    move_player(data, 0.0f, -SPEED);
     if (data->keys[KEY_D])
 	    move_player(data, 0.0f, SPEED);
+    if (data->keys[KEY_LEFT])
+        rotate_player(data, -data->player.rot_speed);
+    if (data->keys[KEY_RIGHT])
+        rotate_player(data, data->player.rot_speed);
     game_render(data);
     return (0);
 }
