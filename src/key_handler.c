@@ -50,14 +50,6 @@ int	key_release_handler(int keysym, t_data *data)
 
 int	close_handler(t_data *data)
 {
-    // does cub3d need "mlx_destroy_image()" function?.
-    // if so... what could be the "fractal->img.img_ptr"?
-    mlx_destroy_image(data->mlx, data->img.img_ptr);
-
-    mlx_destroy_window(data->mlx, data->win);
-    if (data->map)
-        clean_map(data->map);
-    mlx_destroy_display(data->mlx);
-    free(data->mlx);
+    cleanup_data(data);
     exit(EXIT_SUCCESS);
 }

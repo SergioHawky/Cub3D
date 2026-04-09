@@ -48,18 +48,31 @@ typedef struct 	s_img
     int	    bpp;
     int	    endian;
     int	    line_len;
+    int     width;
+    int     height;
 }		        t_img;
+
+typedef struct s_textures
+{
+    char    *no;
+    char    *so;
+    char    *we;
+    char    *ea;
+}               t_textures;
 
 typedef struct 	s_map
 {
     char **grid;
     int width;
     int height;
+    int floor_color;
+    int ceiling_color;
     float player_initial_x;
     float player_initial_y;
     char player_initial_dir;
     int exit_x;
     int exit_y;
+    t_textures textures;
 }               t_map;
 
 typedef struct 	s_player
@@ -108,10 +121,12 @@ typedef struct s_data
     t_map       *map;
     t_player    player;
     t_img	    img;
+    t_img       textures[4];
     int         keys[KEY_COUNT];
 }               t_data;
 
 void    print_message_and_free(char *message, t_data *data, int fd);
+void    cleanup_data(t_data *data);
 int     check_if_map_is_valid(t_map *map, char *filename);
 t_map   *parse_map(char *filename);
 void    clean_map(t_map *map);

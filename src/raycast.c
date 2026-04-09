@@ -6,17 +6,47 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 17:23:32 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/20 04:47:15 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/04/09 16:00:25 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+static t_img	*get_wall_texture(t_data *data, t_ray *ray)
+{
+    if (ray->side == 0)
+    {
+        if (ray->step_x > 0)
+            return (&data->textures[3]);
+        return (&data->textures[2]);
+    }
+    if (ray->step_y > 0)
+        return (&data->textures[1]);
+    return (&data->textures[0]);
+}
+
+static int	get_texture_pixel(t_img *texture, int x, int y)
+{
+    char	*pixel;
+
+    if (!texture || !texture->addr)
+        return (0);
+    if (x < 0)
+        x = 0;
+    if (y < 0)
+        y = 0;
+    if (x >= texture->width)
+        x = texture->width - 1;
+    if (y >= texture->height)
+        y = texture->height - 1;
+    pixel = texture->addr + (y * texture->line_len) + (x * (texture->bpp / 8));
+    return (*(unsigned int *)pixel);
+}
+
 static void init_ray(t_data *data, t_ray *ray, int x)
 {
     t_player *p = &data->player;
 
-    // camera_x: -1.0 (esquerda) a +1.0 (direita)
     float camera_x = 2.0f * x / WIDTH - 1.0f;
 
     // direção deste raio = dir + plane * camera_x
@@ -95,10 +125,21 @@ static void draw_column(t_data *data, t_ray *ray, int x)
     int line_height;
     int draw_start;
     int draw_end;
-    int color;
+    t_img	*texture;
+    float	wall_x;
+    float	step;
+    float	tex_pos;
+    int		tex_x;
+    int		tex_y;
     int y;
 
+    if (ray->perp_dist < 0.001f)
+        ray->perp_dist = 0.001f;
     line_height = (int)(HEIGHT / ray->perp_dist);
+    if (line_height < 1)
+        line_height = 1;
+    if (line_height > HEIGHT * 4)
+        line_height = HEIGHT * 4;
     draw_start = HEIGHT / 2 - line_height / 2;
     draw_end = HEIGHT / 2 + line_height / 2;
 
@@ -108,26 +149,44 @@ static void draw_column(t_data *data, t_ray *ray, int x)
     if (draw_end >= HEIGHT)
         draw_end = HEIGHT - 1;
 
-    // paredes N/S ligeiramente mais escuras que E/W (dá profundidade)
-    if (ray->side == 1)
-        color = 0x00AAAAAA;
+    texture = get_wall_texture(data, ray);
+    if (ray->side == 0)
+        wall_x = data->player.y + ray->perp_dist * ray->ray_dir_y;
     else
-        color = 0x00FFFFFF;
+        wall_x = data->player.x + ray->perp_dist * ray->ray_dir_x;
+    wall_x -= floorf(wall_x);
+    tex_x = (int)(wall_x * (float)texture->width);
+    if ((ray->side == 0 && ray->ray_dir_x > 0)
+        || (ray->side == 1 && ray->ray_dir_y < 0))
+        tex_x = texture->width - tex_x - 1;
+    if (tex_x < 0)
+        tex_x = 0;
+    if (tex_x >= texture->width)
+        tex_x = texture->width - 1;
+
+    step = (float)texture->height / (float)line_height;
+    tex_pos = (draw_start - HEIGHT / 2 + line_height / 2) * step;
 
     y = 0;
     while (y < draw_start)  // teto
     {
-        ft_pixel_put(x, y, &data->img, 0x00333333);
+        ft_pixel_put(x, y, &data->img, data->map->ceiling_color);
         y++;
     }
     while (y <= draw_end)   // parede
     {
-        ft_pixel_put(x, y, &data->img, color);
+        tex_y = (int)tex_pos;
+        if (tex_y < 0)
+            tex_y = 0;
+        if (tex_y >= texture->height)
+            tex_y = texture->height - 1;
+        ft_pixel_put(x, y, &data->img, get_texture_pixel(texture, tex_x, tex_y));
+        tex_pos += step;
         y++;
     }
     while (y < HEIGHT)      // chão
     {
-        ft_pixel_put(x, y, &data->img, 0x00555555);
+        ft_pixel_put(x, y, &data->img, data->map->floor_color);
         y++;
     }
 }

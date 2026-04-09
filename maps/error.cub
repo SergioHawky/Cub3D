@@ -1,3 +1,11 @@
+NO ./assets/Wooden_Floor.xpm
+SO ./assets/Brick_wall.xpm
+WE ./assets/Metal_Floor.xpm
+EA ./assets/Grass.xpm
+
+F 0,0,0
+C 220,220,200
+
 1111111111
 1000000001
 1000000001
