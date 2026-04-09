@@ -149,5 +149,19 @@ void    render_minimap_rays(t_data *data);
 int     key_press_handler(int keysym, t_data *data);
 int     key_release_handler(int keysym, t_data *data);
 int     close_handler(t_data *data);
+int     init_data(char **argv, t_data *data);
+
+
+t_img   *get_wall_texture(t_data *data, t_ray *ray);
+int     get_texture_pixel(t_img *texture, int x, int y);
+int     is_blank_char(char c);
+void    strip_line_end(char *line);
+char    *trim_spaces(char *str);
+void    free_split(char **parts);
+int     is_only_digits(char *str);
+int     is_map_line(char *line);
+int     is_color_line(char *line);
+int     parse_texture_line(t_map *map, char *line);
+int     parse_color_line(t_map *map, char *line);
 
 #endif
