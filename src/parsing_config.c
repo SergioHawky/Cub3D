@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:13:03 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/04/09 17:13:16 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/04/13 16:05:24 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,19 @@ int is_color_line(char *line)
     return (0);
 }
 
+static char **get_texture_slot(t_map *map, char *p)
+{
+    if (!ft_strncmp(p, "NO", 2) && is_blank_char(p[2]))
+        return (&map->textures.no);
+    if (!ft_strncmp(p, "SO", 2) && is_blank_char(p[2]))
+        return (&map->textures.so);
+    if (!ft_strncmp(p, "WE", 2) && is_blank_char(p[2]))
+        return (&map->textures.we);
+    if (!ft_strncmp(p, "EA", 2) && is_blank_char(p[2]))
+        return (&map->textures.ea);
+    return (NULL);
+}
+
 int parse_texture_line(t_map *map, char *line)
 {
     char    *path;
@@ -56,15 +69,7 @@ int parse_texture_line(t_map *map, char *line)
         p++;
     if (!*p || is_color_line(p))
         return (0);
-    slot = NULL;
-    if (!ft_strncmp(p, "NO", 2) && is_blank_char(p[2]))
-        slot = &map->textures.no;
-    else if (!ft_strncmp(p, "SO", 2) && is_blank_char(p[2]))
-        slot = &map->textures.so;
-    else if (!ft_strncmp(p, "WE", 2) && is_blank_char(p[2]))
-        slot = &map->textures.we;
-    else if (!ft_strncmp(p, "EA", 2) && is_blank_char(p[2]))
-        slot = &map->textures.ea;
+    slot = get_texture_slot(map, p);
     if (!slot)
         return (0);
     p += 2;
@@ -93,6 +98,35 @@ static int  parse_rgb_component(char *token, int *out)
     return (0);
 }
 
+static int  parse_rgb_values(char **parts, int *r, int *g, int *b)
+{
+    if (parse_rgb_component(parts[0], r) == -1
+        || parse_rgb_component(parts[1], g) == -1
+        || parse_rgb_component(parts[2], b) == -1)
+        return (-1);
+    return (0);
+}
+
+static int  apply_parsed_color(t_map *map, char type, int r, int g, int b)
+{
+    int color;
+
+    color = (r << 16) | (g << 8) | b;
+    if (type == 'F')
+    {
+        if (map->floor_color != -1)
+            return (-1);
+        map->floor_color = color;
+    }
+    else
+    {
+        if (map->ceiling_color != -1)
+            return (-1);
+        map->ceiling_color = color;
+    }
+    return (0);
+}
+
 int parse_color_line(t_map *map, char *line)
 {
     char    *p;
@@ -114,21 +148,9 @@ int parse_color_line(t_map *map, char *line)
     free(content);
     if (!parts || !parts[0] || !parts[1] || !parts[2] || parts[3])
         return (free_split(parts), -1);
-    if (parse_rgb_component(parts[0], &red) == -1
-        || parse_rgb_component(parts[1], &green) == -1
-        || parse_rgb_component(parts[2], &blue) == -1)
+    if (parse_rgb_values(parts, &red, &green, &blue) == -1)
         return (free_split(parts), -1);
-    if (*p == 'F')
-    {
-        if (map->floor_color != -1)
-            return (free_split(parts), -1);
-        map->floor_color = (red << 16) | (green << 8) | blue;
-    }
-    else
-    {
-        if (map->ceiling_color != -1)
-            return (free_split(parts), -1);
-        map->ceiling_color = (red << 16) | (green << 8) | blue;
-    }
+    if (apply_parsed_color(map, *p, red, green, blue) == -1)
+        return (free_split(parts), -1);
     return (free_split(parts), 1);
 }
