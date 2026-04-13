@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 15:35:28 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/03/20 04:40:08 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/04/13 17:01:08 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,20 @@ void    draw_player(t_data *data)
     int r;
     int dx;
     int dy;
+    int off_x;
+    int off_y;
+    int tile_px;
+    int mini_w;
+    int mini_h;
 
-    r = PX / 2 - 10;
-    cx = (int)(data->player.x * PX);
-    cy = (int)(data->player.y * PX);
+    minimap_get_layout(data, &off_x, &off_y, &tile_px, &mini_w, &mini_h);
+    (void)mini_w;
+    (void)mini_h;
+    r = tile_px / 3;
+    if (r < 2)
+        r = 2;
+    cx = off_x + (int)(data->player.x * tile_px);
+    cy = off_y + (int)(data->player.y * tile_px);
     dy = -r;
     while (dy <= r)
     {

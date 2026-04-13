@@ -19,6 +19,10 @@
 # define HEIGHT 512 
 # define SPEED 0.10f 
 # define ROT_SPEED 0.01f
+# define MINIMAP_SIZE 220
+# define MINIMAP_MARGIN 10
+# define MINIMAP_MIN_TILE 4
+# define MAX_VISIBLE_MAP_SIDE (MINIMAP_SIZE / MINIMAP_MIN_TILE)
 # define PI 3.14159265358979323846f
 # define FOV (60.0f * PI / 180.0f)      //graus * PI / 180
 # define PLANE_LEN tanf(FOV * 0.5f)
@@ -142,6 +146,8 @@ void    rotate_player(t_data *data, float angle);
 void    move_player(t_data *data, float forward, float strafe);
 int     collision(t_data *data, float new_x, float new_y);
 void    draw_minimap(t_data *data);
+void    minimap_get_layout(t_data *data, int *offset_x, int *offset_y,
+            int *tile_px, int *mini_w, int *mini_h);
 int     is_wall(t_data *data, float x, float y);
 void    draw_ray_minimap(t_data *data, t_ray *ray, int x);
 void    render_3d(t_data *data);
