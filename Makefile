@@ -10,7 +10,10 @@ OFF		:= \033[0m
 YELLOW  := \033[33m
 
 SRCS = src/main.c \
+	   src/init.c \
 	   src/parsing.c \
+	   src/parsing_utils.c \
+	   src/parsing_config.c \
 	   src/map_checker_1.c \
 	   src/map_checker_2.c \
 	   src/utils.c \
@@ -18,7 +21,8 @@ SRCS = src/main.c \
 	   src/events.c \
 	   src/minimap.c \
 	   src/raycast.c \
-	   src/render3d.c \
+	   src/raycast_texture.c \
+	   src/key_handler.c
 
 OBJS = $(SRCS:.c=.o)
 

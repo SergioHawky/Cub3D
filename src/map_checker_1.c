@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::   */
-/*	 map_checker_1.c									:+:		 :+:	:+:   */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: seilkiv <seilkiv@student.42lisboa.com>		+#+  +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2026/03/05 13:49:31 by seilkiv		   #+#	  #+#			  */
-/*	 Updated: 2026/03/12 16:44:50 by seilkiv		  ###	########.fr		  */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_checker_1.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/05 13:49:31 by seilkiv           #+#    #+#             */
+/*   Updated: 2026/04/13 17:13:20 by seilkiv          ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
@@ -26,9 +26,11 @@ static int	check_name(char *filename)
 
 static int	check_format(t_map *map)
 {
-	if (map->height <= 2 || map->width <= 2)
-		return (0);
-	return (1);
+    if (map->height <= 2 || map->width <= 2)
+        return (0);
+    if (map->height > MAX_VISIBLE_MAP_SIDE || map->width > MAX_VISIBLE_MAP_SIDE)
+        return (0);
+    return (1);
 }
 
 static int	check_characters(t_map *map)
@@ -75,15 +77,15 @@ static int	check_characters(t_map *map)
 
 int		check_if_map_is_valid(t_map *map, char *filename)
 {
-	if (check_name(filename) == 0)
-		return (ft_putstr_fd("Invalid file name!\n", 2), 0);
-	if (check_format(map) == 0)
-		return (ft_putstr_fd("Invalid map format!\n", 2), 0);
-	if (check_characters(map) == 0)
-		return (ft_putstr_fd("Invalid characters or player in map!\n", 2), 0);
-	printf("%d\n", map->height); //debug
-	printf("%d\n", map->width); //debug
-	if (check_borders(map) == 0)
-		return (ft_putstr_fd("Invalid map borders!\n", 2), 0);
-	return (1);
+    if (check_name(filename) == 0)
+        return (ft_putstr_fd("Invalid file name!\n", 2), 0);
+    if (check_format(map) == 0)
+        return (ft_putstr_fd("Invalid map format/size!\n", 2), 0);
+    if (check_characters(map) == 0)
+        return (ft_putstr_fd("Invalid characters or player in map!\n", 2), 0);
+    printf("%d\n", map->height); //debug
+    printf("%d\n", map->width); //debug
+    if (check_borders(map) == 0)
+        return (ft_putstr_fd("Invalid map borders!\n", 2), 0);
+    return (1);
 }

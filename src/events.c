@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::   */
-/*	 events.c											:+:		 :+:	:+:   */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: cmanuel- <cmanuel-@student.42.fr>			+#+  +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2026/03/25 20:35:55 by cmanuel-		   #+#	  #+#			  */
-/*	 Updated: 2026/03/25 20:36:00 by cmanuel-		  ###	########.fr		  */
-/*																			  */
-/* ************************************************************************** */
-
 
 #include "cub3D.h"
 
@@ -17,84 +5,115 @@ void	ft_pixel_put(int x, int y, t_img *img, int color)
 {
 	int	offset;
 
+	if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)      //aqui
+		return ;
 	offset = (y * img->line_len) + (x * (img->bpp / 8));
 	*(unsigned int *)(img->addr + offset) = color;
 }
 
-void	game_render(t_data *data)
+static void 	draw_tile(t_data *data, int x, int y, int color)
 {
-	render_3d(data);
-	if (MINIMAP)
-		draw_minimap(data);
-	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
+    int px;
+    int py;
+
+    py = 0;
+    while (py < PX)
+    {
+	px = 0;
+	while (px < PX)
+	{
+	    ft_pixel_put(x * PX + px, y * PX + py, &data->img, color);
+	    px++;
+	}
+	py++;
+    }
+}
+
+void 	game_render(t_data *data)
+{
+    int i;
+    int j;
+    int color;
+
+    i = 0;
+	while(data->map->grid[i])
+	{
+		j = 0;
+		while(data->map->grid[i][j])
+		{
+			if (data->map->grid[i][j] == '1')
+				color = WHITE;
+			else if (data->map->grid[i][j] == '0')
+				color = UBUNTU;
+			else
+				color = BLACK;
+			draw_tile(data, j, i, color);
+			j++;
+		}
+		i++;
+	}
+    draw_player(data);
+    mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 }
 
 int	close_handler(t_data *data)
 {
-	// does cub3d need "mlx_destroy_image()" function?.
-	// if so... what could be the "fractal->img.img_ptr"?
-	mlx_destroy_image(data->mlx, data->img.img_ptr);
+    // does cub3d need "mlx_destroy_image()" function?.
+    // if so... what could be the "fractal->img.img_ptr"?
+    mlx_destroy_image(data->mlx, data->img.img_ptr);
 
-	mlx_destroy_window(data->mlx, data->win);
-	if (data->map)
-		clean_map(data->map);
-	mlx_destroy_display(data->mlx);
-	free(data->mlx);
-	exit(EXIT_SUCCESS);
+    mlx_destroy_window(data->mlx, data->win);
+    if (data->map)
+        clean_map(data->map);
+    mlx_destroy_display(data->mlx);
+    free(data->mlx);
+    exit(EXIT_SUCCESS);
 }
 
 int	key_press_handler(int keysym, t_data *data)
 {
-	if (keysym == XK_Escape)
-		close_handler(data);
-	else if (keysym == XK_w)
-		data->keys[KEY_W] = 1;
-	else if (keysym == XK_s)
-		data->keys[KEY_S] = 1;
-	else if (keysym == XK_a)
-		data->keys[KEY_A] = 1;
-	else if (keysym == XK_d)
-		data->keys[KEY_D] = 1;
-	else if (keysym == XK_Left || keysym == XK_h)
-		data->keys[KEY_LEFT] = 1;
-	else if (keysym == XK_Right || keysym == XK_l)
-		data->keys[KEY_RIGHT] = 1;
-	return (0);
+    if (keysym == XK_Escape)
+	close_handler(data);
+    else if (keysym == XK_w)
+	data->keys[KEY_W] = 1;
+    else if (keysym == XK_s)
+	data->keys[KEY_S] = 1;
+    else if (keysym == XK_a)
+	data->keys[KEY_A] = 1;
+    else if (keysym == XK_d)
+	data->keys[KEY_D] = 1;
+    else if (keysym == XK_Left || keysym == XK_h)
+        rotate_player(data, -data->player.rot_speed);
+    else if (keysym == XK_Right || keysym == XK_l)
+        rotate_player(data, data->player.rot_speed);
+    return (0);
 }
 
 int	key_release_handler(int keysym, t_data *data)
 {
-	if (keysym == XK_w)
-		data->keys[KEY_W] = 0;
-	else if (keysym == XK_s)
-		data->keys[KEY_S] = 0;
-	else if (keysym == XK_a)
-		data->keys[KEY_A] = 0;
-	else if (keysym == XK_d)
-		data->keys[KEY_D] = 0;
-	else if (keysym == XK_Left || keysym == XK_h)
-		data->keys[KEY_LEFT] = 0;
-	else if (keysym == XK_Right || keysym == XK_l)
-		data->keys[KEY_RIGHT] = 0;
-	return (0);
+    if (keysym == XK_w)
+	data->keys[KEY_W] = 0;
+    else if (keysym == XK_s)
+	data->keys[KEY_S] = 0;
+    else if (keysym == XK_a)
+	data->keys[KEY_A] = 0;
+    else if (keysym == XK_d)
+	data->keys[KEY_D] = 0;
+    return (0);
 }
 
 int	game_loop(t_data *data)
 {
-	if (data->keys[KEY_W])
-		move_player(data, SPEED, 0.0f);
-	if (data->keys[KEY_S])
-		move_player(data, -SPEED, 0.0f);
-	if (data->keys[KEY_A])
-		move_player(data, 0.0f, -SPEED);
-	if (data->keys[KEY_D])
-		move_player(data, 0.0f, SPEED);
-	if (data->keys[KEY_LEFT])
-		rotate_player(data, -data->player.rot_speed);
-	if (data->keys[KEY_RIGHT])
-		rotate_player(data, data->player.rot_speed);
-	game_render(data);
-	return (0);
+    if (data->keys[KEY_W])
+        move_player(data, SPEED, 0.0f);
+    if (data->keys[KEY_S])
+	move_player(data, -SPEED, 0.0f);
+    if (data->keys[KEY_A])
+	move_player(data, 0.0f, -SPEED);
+    if (data->keys[KEY_D])
+	move_player(data, 0.0f, SPEED);
+    game_render(data);
+    return (0);
 }
 
 void	events_init(t_data *data)
