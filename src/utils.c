@@ -6,15 +6,15 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 11:34:13 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/04/13 17:11:20 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/04/13 17:26:55 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	clean_map(t_map *map)
+void    clean_map(t_map *map)
 {
-	int	i;
+    int i;
 
     if (!map)
         return;
@@ -35,14 +35,14 @@ void	clean_map(t_map *map)
     free(map);
 }
 
-void	print_message_and_free(char *message, t_data *data, int fd)
+void    print_message_and_free(char *message, t_data *data, int fd)
 {
-	ft_putstr_fd(message, fd);
-	if (data)
-	{
-		if (data->map)
-			clean_map(data->map);
-	}
+    ft_putstr_fd(message, fd);
+    if (data)
+    {
+        if (data->map)
+            clean_map(data->map);
+    }
 }
 
 void    cleanup_data(t_data *data)
@@ -71,8 +71,8 @@ void    cleanup_data(t_data *data)
 
 t_map   *copy_map(t_map *original)
 {
-	t_map	*copy;
-	int		i;
+    t_map *copy;
+    int i;
 
     copy = malloc(sizeof(t_map));
     if (!copy)

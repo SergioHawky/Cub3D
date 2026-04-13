@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:42:18 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/04/13 17:12:30 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/04/13 17:25:45 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ static t_map	*fill_map(t_map *map, char *filename)
     return (finish_map_fill(map, i, fd));
 }
 
-t_map	*parse_map(char *filename)
+t_map   *parse_map(char *filename)
 {
     t_map *map;
     t_map *filled_map;

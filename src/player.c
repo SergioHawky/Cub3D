@@ -6,13 +6,13 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 15:35:28 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/04/13 17:12:10 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/04/13 17:27:50 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	set_player_position(t_data *data)
+void init_player(t_data *data)
 {
     data->player.x = data->map->player_initial_x + 0.5f;
     data->player.y = data->map->player_initial_y + 0.5f;
@@ -48,16 +48,24 @@ void	set_player_position(t_data *data)
     }
 }
 
-void	init_player(t_data *data)
+void    move_player(t_data *data, float forward, float strafe)
 {
-	data->player.x = data->map->player_initial_x + 0.5f;
-	data->player.y = data->map->player_initial_y + 0.5f;
-	data->player.move_speed = SPEED;
-	data->player.rot_speed = ROT_SPEED;
-	set_player_position(data);
+    float move_x;
+    float move_y;
+
+    move_x = 0.0f;
+    move_y = 0.0f;
+    move_x += data->player.dir_x * data->player.move_speed * forward;
+    move_y += data->player.dir_y * data->player.move_speed * forward;
+    move_x += -data->player.dir_y * data->player.move_speed * strafe;
+    move_y += data->player.dir_x * data->player.move_speed * strafe;
+    if (!collision(data, data->player.x + move_x, data->player.y))
+        data->player.x += move_x;
+    if (!collision(data, data->player.x, data->player.y + move_y))
+        data->player.y += move_y;
 }
 
-void	move_player(t_data *data, float forward, float strafe)
+void rotate_player(t_data *data, float angle)
 {
     float old_dir_x;
     float old_plane_x;
@@ -74,7 +82,7 @@ void	move_player(t_data *data, float forward, float strafe)
     data->player.plane_y = old_plane_x * sin_a + data->player.plane_y * cos_a;
 }
 
-static void	draw_player_direction(t_data *data, int cx, int cy, int r)
+void    draw_player(t_data *data)
 {
     int cx;
     int cy;

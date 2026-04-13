@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 15:35:24 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/04/13 17:13:07 by seilkiv          ###   ########.fr       */
+/*   Updated: 2026/04/13 17:25:11 by seilkiv          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,19 @@ void    minimap_get_layout(t_data *data, int *offset_x, int *offset_y,
 
 int  is_wall(t_data *data, float x, float y)
 {
-	int	ix;
-	int	iy;
+    int ix;
+    int iy;
 
-	ix = (int)x;
-	iy = (int)y;
-	if (ix < 0 || iy < 0 || iy >= data->map->height || ix >= data->map->width)
-		return (1);
-	return (data->map->grid[iy][ix] == '1');
+    ix = (int)x;
+    iy = (int)y;
+    if (ix < 0 || iy < 0 || iy >= data->map->height || ix >= data->map->width)
+        return (1);
+    return (data->map->grid[iy][ix] == '1');
 }
 
-static void	draw_mm_tile(t_data *data, int tx, int ty, int color)
+int    collision(t_data *data, float new_x, float new_y)
 {
-	int	x;
-	int	y;
-	int	px;
-	int	py;
+    float m;
 
     m = 0.2f;
     if (is_wall(data, new_x - m, new_y - m))
