@@ -12,35 +12,46 @@
 
 #include "cub3D.h"
 
-static int	check_name(char *filename)
+static void	handle_player_char(t_map *map, int i, int j, int *p_count)
 {
-	size_t	len;
-	char	*cub;
-
-	len = ft_strlen(filename);
-	cub = ft_strrchr(filename, '.');
-	if (len < 5 || !cub || ft_strcmp(cub, ".cub") != 0)
-		return (0);
-	return (1);
+	(*p_count)++;
+	map->player_initial_x = j;
+	map->player_initial_y = i;
+	map->player_initial_dir = map->grid[i][j];
+	map->grid[i][j] = '0';
 }
 
-static int	check_format(t_map *map)
+static void	handle_exit_char(t_map *map, int i, int j, int *e_count)
 {
-	if (map->height <= 2 || map->width <= 2)
-		return (0);
-	if (map->height > MAX_VISIBLE_MAP_SIDE || map->width > MAX_VISIBLE_MAP_SIDE)
-		return (0);
-	return (1);
+	(*e_count)++;
+	map->exit_x = j;
+	map->exit_y = i;
+	map->grid[i][j] = '0';
 }
 
+static int	scan_row(t_map *map, int row, int *p_cnt, int *e_cnt)
+{
+	int	j;
 
-
-
+	j = 0;
+	while (map->grid[row][j])
+	{
+		if (map->grid[row][j] == 'N' || map->grid[row][j] == 'S'
+			|| map->grid[row][j] == 'E' || map->grid[row][j] == 'W')
+			handle_player_char(map, row, j, p_cnt);
+		else if (map->grid[row][j] == 'A')
+			handle_exit_char(map, row, j, e_cnt);
+		else if (map->grid[row][j] != '0' && map->grid[row][j] != '1'
+				&& map->grid[row][j] != ' ')
+			return (0);
+		j++;
+	}
+	return (1);
+}
 
 static int	check_characters(t_map *map)
 {
 	int	i;
-	int	j;
 	int	player_count;
 	int	exit_count;
 
@@ -50,30 +61,8 @@ static int	check_characters(t_map *map)
 	i = 0;
 	while (map->grid[i])
 	{
-		j = 0;
-		while (map->grid[i][j])
-		{
-			if (map->grid[i][j] == 'N' || map->grid[i][j] == 'S'
-				|| map->grid[i][j] == 'E' || map->grid[i][j] == 'W')
-			{
-				player_count++;
-				map->player_initial_x = j;
-				map->player_initial_y = i;
-				map->player_initial_dir = map->grid[i][j];
-				map->grid[i][j] = '0';
-			}
-			else if (map->grid[i][j] == 'A')
-			{
-				exit_count++;
-				map->exit_x = j;
-				map->exit_y = i;
-				map->grid[i][j] = '0';
-			}
-			else if (map->grid[i][j] != '0' && map->grid[i][j] != '1'
-					&& map->grid[i][j] != ' ')
-				return (0);
-			j++;
-		}
+		if (scan_row(map, i, &player_count, &exit_count) == 0)
+			return (0);
 		i++;
 	}
 	if (player_count != 1 || exit_count != 1)
@@ -83,9 +72,16 @@ static int	check_characters(t_map *map)
 
 int	check_if_map_is_valid(t_map *map, char *filename)
 {
-	if (check_name(filename) == 0)
+	size_t	len;
+	char	*cub;
+
+	len = ft_strlen(filename);
+	cub = ft_strrchr(filename, '.');
+	if (len < 5 || !cub || ft_strcmp(cub, ".cub") != 0)
 		return (ft_putstr_fd("Invalid file name!\n", 2), 0);
-	if (check_format(map) == 0)
+	if (map->height <= 2 || map->width <= 2)
+		return (ft_putstr_fd("Invalid map format/size!\n", 2), 0);
+	if (map->height > MAX_VISIBLE_MAP_SIDE || map->width > MAX_VISIBLE_MAP_SIDE)
 		return (ft_putstr_fd("Invalid map format/size!\n", 2), 0);
 	if (check_characters(map) == 0)
 		return (ft_putstr_fd("Invalid characters or player in map!\n", 2), 0);
