@@ -6,7 +6,7 @@
 /*   By: seilkiv <seilkiv@student.42lisboa.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:20:33 by seilkiv           #+#    #+#             */
-/*   Updated: 2026/04/15 16:54:45 by cmanuel-         ###   ########.fr       */
+/*   Updated: 2026/04/15 23:38:21 by cmanuel-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static int	load_textures(t_data *data)
 		data->textures[i].width = width;
 		data->textures[i].height = height;
 		data->textures[i].addr = mlx_get_data_addr(data->textures[i].img_ptr,
-													&data->textures[i].bpp,
-													&data->textures[i].line_len,
-													&data->textures[i].endian);
+				&data->textures[i].bpp,
+				&data->textures[i].line_len,
+				&data->textures[i].endian);
 		i++;
 	}
 	return (1);

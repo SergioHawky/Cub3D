@@ -138,10 +138,21 @@ typedef struct s_minimap
     int	mini_h;
 }	t_minimap;
 
+typedef struct s_col
+{
+    int		line_height;
+    int		draw_start;
+    int		draw_end;
+    t_img	*texture;
+    int		tex_x;
+    float	step;
+}	t_col;
+
 void    print_message_and_free(char *message, t_data *data, int fd);
 void    cleanup_data(t_data *data);
 int     check_if_map_is_valid(t_map *map, char *filename);
 t_map   *parse_map(char *filename);
+t_map   *fill_map(t_map *map, char *filename);
 void    clean_map(t_map *map);
 t_map   *copy_map(t_map *original); 
 int     check_borders(t_map *map);
@@ -158,6 +169,8 @@ void    draw_minimap(t_data *data);
 void    minimap_get_layout(t_data *data, t_minimap *mm);
 int     is_wall(t_data *data, float x, float y);
 void    draw_ray_minimap(t_data *data, t_ray *ray, int x);
+void    perform_dda(t_data *data, t_ray *ray);
+void    draw_column(t_data *data, t_ray *ray, int x);
 void    render_3d(t_data *data);
 void    render_minimap_rays(t_data *data);
 int     key_press_handler(int keysym, t_data *data);

@@ -12,8 +12,10 @@ YELLOW  := \033[33m
 SRCS = src/main.c \
 	   src/init.c \
 	   src/parsing.c \
+	   src/parsing_map.c \
 	   src/parsing_utils.c \
 	   src/parsing_config.c \
+	   src/parsing_color.c \
 	   src/map_checker_1.c \
 	   src/map_checker_2.c \
 	   src/utils.c \
@@ -22,6 +24,8 @@ SRCS = src/main.c \
 	   src/minimap.c \
 	   src/minimap_utils.c \
 	   src/raycast.c \
+	   src/raycast_dda.c \
+	   src/raycast_draw.c \
 	   src/raycast_texture.c \
 	   src/key_handler.c
 
