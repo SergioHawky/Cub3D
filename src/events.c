@@ -53,6 +53,6 @@ void	events_init(t_data *data)
 	mlx_hook(data->win, KeyPress, KeyPressMask, key_press_handler, data);
 	mlx_hook(data->win, KeyRelease, KeyReleaseMask, key_release_handler, data);
 	mlx_hook(data->win, DestroyNotify, StructureNotifyMask, close_handler,
-			data);
+		data);
 	mlx_loop_hook(data->mlx, game_loop, data);
 }

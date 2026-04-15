@@ -69,10 +69,26 @@ void	cleanup_data(t_data *data)
 		clean_map(data->map);
 }
 
+static int	alloc_copy_grid(t_map *copy, t_map *original)
+{
+	int	i;
+
+	copy->grid = malloc(sizeof(char *) * (copy->height + 1));
+	if (!copy->grid)
+		return (0);
+	i = 0;
+	while (i < copy->height)
+	{
+		copy->grid[i] = ft_strdup(original->grid[i]);
+		i++;
+	}
+	copy->grid[copy->height] = NULL;
+	return (1);
+}
+
 t_map	*copy_map(t_map *original)
 {
 	t_map	*copy;
-	int		i;
 
 	copy = malloc(sizeof(t_map));
 	if (!copy)
@@ -83,18 +99,10 @@ t_map	*copy_map(t_map *original)
 	copy->textures.so = NULL;
 	copy->textures.we = NULL;
 	copy->textures.ea = NULL;
-	copy->grid = malloc(sizeof(char *) * (copy->height + 1));
-	if (!copy->grid)
+	if (!alloc_copy_grid(copy, original))
 	{
 		free(copy);
 		return (NULL);
 	}
-	i = 0;
-	while (i < copy->height)
-	{
-		copy->grid[i] = ft_strdup(original->grid[i]);
-		i++;
-	}
-	copy->grid[copy->height] = NULL;
 	return (copy);
 }

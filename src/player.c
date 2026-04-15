@@ -12,40 +12,38 @@
 
 #include "cub3D.h"
 
+static void	draw_circle(t_data *data, int cx, int cy, int r)
+{
+	int	dx;
+	int	dy;
+
+	dy = -r;
+	while (dy <= r)
+	{
+		dx = -r;
+		while (dx <= r)
+		{
+			if (dx * dx + dy * dy <= r * r)
+				ft_pixel_put(cx + dx, cy + dy, &data->img, PINK);
+			dx++;
+		}
+		dy++;
+	}
+}
+
 void	init_player(t_data *data)
 {
+	char	dir;
+
 	data->player.x = data->map->player_initial_x + 0.5f;
 	data->player.y = data->map->player_initial_y + 0.5f;
 	data->player.move_speed = SPEED;
 	data->player.rot_speed = ROT_SPEED;
-	if (data->map->player_initial_dir == 'N')
-	{
-		data->player.dir_x = 0.0f;
-		data->player.dir_y = -1.0f;
-		data->player.plane_x = PLANE_LEN; // perpendicular a (0,-1)
-		data->player.plane_y = 0.0f;
-	}
-	else if (data->map->player_initial_dir == 'S')
-	{
-		data->player.dir_x = 0.0f;
-		data->player.dir_y = 1.0f;
-		data->player.plane_x = -PLANE_LEN;
-		data->player.plane_y = 0.0f;
-	}
-	else if (data->map->player_initial_dir == 'W')
-	{
-		data->player.dir_x = -1.0f;
-		data->player.dir_y = 0.0f;
-		data->player.plane_x = 0.0f;
-		data->player.plane_y = -PLANE_LEN;
-	}
-	else
-	{
-		data->player.dir_x = 1.0f;
-		data->player.dir_y = 0.0f;
-		data->player.plane_x = 0.0f;
-		data->player.plane_y = PLANE_LEN;
-	}
+	dir = data->map->player_initial_dir;
+	data->player.dir_x = (float)((dir == 'E') - (dir == 'W'));
+	data->player.dir_y = (float)((dir == 'S') - (dir == 'N'));
+	data->player.plane_x = ((dir == 'N') - (dir == 'S')) * PLANE_LEN;
+	data->player.plane_y = ((dir == 'E') - (dir == 'W')) * PLANE_LEN;
 }
 
 void	move_player(t_data *data, float forward, float strafe)
@@ -90,8 +88,6 @@ void	draw_player(t_data *data)
 	int			cx;
 	int			cy;
 	int			r;
-	int			dx;
-	int			dy;
 
 	minimap_get_layout(data, &mm);
 	r = mm.tile_px / 3;
@@ -99,16 +95,5 @@ void	draw_player(t_data *data)
 		r = 2;
 	cx = mm.off_x + (int)(data->player.x * mm.tile_px);
 	cy = mm.off_y + (int)(data->player.y * mm.tile_px);
-	dy = -r;
-	while (dy <= r)
-	{
-		dx = -r;
-		while (dx <= r)
-		{
-			if (dx * dx + dy * dy <= r * r)
-				ft_pixel_put(cx + dx, cy + dy, &data->img, PINK);
-			dx++;
-		}
-		dy++;
-	}
+	draw_circle(data, cx, cy, r);
 }
