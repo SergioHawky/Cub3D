@@ -12,76 +12,41 @@
 
 #include "cub3D.h"
 
-void	minimap_get_layout(t_data *data, int *offset_x, int *offset_y,
-		int *tile_px, int *mini_w, int *mini_h)
+void	minimap_get_layout(t_data *data, t_minimap *mm)
 {
 	int	tpx_w;
 	int	tpx_h;
 
 	tpx_w = MINIMAP_SIZE / data->map->width;
 	tpx_h = MINIMAP_SIZE / data->map->height;
-	*tile_px = tpx_w;
-	if (tpx_h < *tile_px)
-		*tile_px = tpx_h;
-	if (*tile_px < 1)
-		*tile_px = 1;
-	*mini_w = data->map->width * (*tile_px);
-	*mini_h = data->map->height * (*tile_px);
-	*offset_x = MINIMAP_MARGIN;
-	*offset_y = HEIGHT - *mini_h - MINIMAP_MARGIN;
-	if (*offset_y < 0)
-		*offset_y = 0;
-}
-
-int	is_wall(t_data *data, float x, float y)
-{
-	int	ix;
-	int	iy;
-
-	ix = (int)x;
-	iy = (int)y;
-	if (ix < 0 || iy < 0 || iy >= data->map->height || ix >= data->map->width)
-		return (1);
-	return (data->map->grid[iy][ix] == '1');
-}
-
-int	collision(t_data *data, float new_x, float new_y)
-{
-	float	m;
-
-	m = 0.2f;
-	if (is_wall(data, new_x - m, new_y - m))
-		return (1);
-	if (is_wall(data, new_x + m, new_y - m))
-		return (1);
-	if (is_wall(data, new_x - m, new_y + m))
-		return (1);
-	if (is_wall(data, new_x + m, new_y + m))
-		return (1);
-	return (0);
+	mm->tile_px = tpx_w;
+	if (tpx_h < mm->tile_px)
+		mm->tile_px = tpx_h;
+	if (mm->tile_px < 1)
+		mm->tile_px = 1;
+	mm->mini_w = data->map->width * mm->tile_px;
+	mm->mini_h = data->map->height * mm->tile_px;
+	mm->off_x = MINIMAP_MARGIN;
+	mm->off_y = HEIGHT - mm->mini_h - MINIMAP_MARGIN;
+	if (mm->off_y < 0)
+		mm->off_y = 0;
 }
 
 static void	draw_tile(t_data *data, int x, int y, int color)
 {
-	int	px;
-	int	py;
-	int	off_x;
-	int	off_y;
-	int	tile_px;
-	int	mini_w;
-	int	mini_h;
+	t_minimap	mm;
+	int			px;
+	int			py;
 
-	minimap_get_layout(data, &off_x, &off_y, &tile_px, &mini_w, &mini_h);
-	(void)mini_w;
-	(void)mini_h;
+	minimap_get_layout(data, &mm);
 	py = 0;
-	while (py < tile_px)
+	while (py < mm.tile_px)
 	{
 		px = 0;
-		while (px < tile_px)
+		while (px < mm.tile_px)
 		{
-			ft_pixel_put(off_x + x * tile_px + px, off_y + y * tile_px + py,
-					&data->img, color);
+			ft_pixel_put(mm.off_x + x * mm.tile_px + px,
+				mm.off_y + y * mm.tile_px + py, &data->img, color);
 			px++;
 		}
 		py++;
@@ -121,38 +86,4 @@ void	draw_minimap(t_data *data)
 	}
 	render_minimap_rays(data);
 	draw_player(data);
-}
-
-void	draw_ray_minimap(t_data *data, t_ray *ray, int x)
-{
-	float	ray_x;
-	float	ray_y;
-	float	step;
-	float	dist;
-	int		off_x;
-	int		off_y;
-	int		tile_px;
-	int		mini_w;
-	int		mini_h;
-	int		px;
-	int		py;
-
-	if (x % 8 != 0)
-		return ;
-	minimap_get_layout(data, &off_x, &off_y, &tile_px, &mini_w, &mini_h);
-	ray_x = data->player.x;
-	ray_y = data->player.y;
-	step = 0.03f;
-	dist = 0.0f;
-	while (dist < ray->perp_dist)
-	{
-		px = off_x + (int)(ray_x * tile_px);
-		py = off_y + (int)(ray_y * tile_px);
-		if (px >= off_x && px < off_x + mini_w && py >= off_y && py < off_y
-			+ mini_h)
-			ft_pixel_put(px, py, &data->img, RED);
-		ray_x += ray->ray_dir_x * step;
-		ray_y += ray->ray_dir_y * step;
-		dist += step;
-	}
 }

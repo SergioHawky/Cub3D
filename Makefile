@@ -20,6 +20,7 @@ SRCS = src/main.c \
 	   src/player.c \
 	   src/events.c \
 	   src/minimap.c \
+	   src/minimap_utils.c \
 	   src/raycast.c \
 	   src/raycast_texture.c \
 	   src/key_handler.c

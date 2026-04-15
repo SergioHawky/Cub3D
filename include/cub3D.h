@@ -129,6 +129,15 @@ typedef struct s_data
     int         keys[KEY_COUNT];
 }               t_data;
 
+typedef struct s_minimap
+{
+    int	off_x;
+    int	off_y;
+    int	tile_px;
+    int	mini_w;
+    int	mini_h;
+}	t_minimap;
+
 void    print_message_and_free(char *message, t_data *data, int fd);
 void    cleanup_data(t_data *data);
 int     check_if_map_is_valid(t_map *map, char *filename);
@@ -146,8 +155,7 @@ void    rotate_player(t_data *data, float angle);
 void    move_player(t_data *data, float forward, float strafe);
 int     collision(t_data *data, float new_x, float new_y);
 void    draw_minimap(t_data *data);
-void    minimap_get_layout(t_data *data, int *offset_x, int *offset_y,
-            int *tile_px, int *mini_w, int *mini_h);
+void    minimap_get_layout(t_data *data, t_minimap *mm);
 int     is_wall(t_data *data, float x, float y);
 void    draw_ray_minimap(t_data *data, t_ray *ray, int x);
 void    render_3d(t_data *data);
