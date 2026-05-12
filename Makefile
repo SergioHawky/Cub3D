@@ -85,4 +85,4 @@ cd:
 	./cub3D maps/d.cub
 
 
-.PHONY: all clean fclean re ffclean vc mlx
+.PHONY: all clean fclean re ffclean vc va vs vd ve cc ca cs cd mlx
