@@ -65,7 +65,7 @@ ffclean: clean fclean
 	@echo "$(YELLOW)Removed minilibx library!$(OFF)"
 
 vc:
-	valgrind --leak-check=full --show-leak-kinds=all ./cub3D maps/map1.cub
+	valgrind --leak-check=full --show-leak-kinds=all ./cub3D maps/c.cub
 va:
 	valgrind --leak-check=full --show-leak-kinds=all ./cub3D maps/a.cub
 vs:
@@ -73,16 +73,25 @@ vs:
 vd:
 	valgrind --leak-check=full --show-leak-kinds=all ./cub3D maps/d.cub
 ve:
-	valgrind --leak-check=full --show-leak-kinds=all ./cub3D maps/e.cub
+	valgrind --leak-check=full --show-leak-kinds=all ./cub3D maps/error.cub
+vw:
+	valgrind --leak-check=full --show-leak-kinds=all ./cub3D maps/w.cub
+vq:
+	valgrind --leak-check=full --show-leak-kinds=all ./cub3D maps/q.cub
 
 cc:
-	./cub3D maps/map1.cub
+	./cub3D maps/c.cub
 ca:
 	./cub3D maps/a.cub
 cs:
 	./cub3D maps/s.cub
 cd:
 	./cub3D maps/d.cub
+ce:
+	./cub3D maps/error.cub
+cq:
+	./cub3D maps/q.cub
+cw:
+	./cub3D maps/w.cub
 
-
-.PHONY: all clean fclean re ffclean vc va vs vd ve cc ca cs cd mlx
+.PHONY: all clean fclean re ffclean vc va vs vd ve vw vq cc ce ca cs cd cq cw mlx
