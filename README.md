@@ -35,6 +35,10 @@ make ffclean  # Removes object files, executable and minilibx library
 - use `<left>` and `<right>` to rotate accordingly (or `h` and `l`, if you're a vim user!)
 - `Esc` to close the program
 
+## AI Usage
+
+TODO
+
 ## Resources
 
 - [Lode's Raycasting Tutorial](https://lodev.org/cgtutor/raycasting.html) — The **DEFINITIVE RAYCASTING GUIDE!**
